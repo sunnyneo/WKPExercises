@@ -1,3 +1,6 @@
+// Includes
+// ------------------------------------------------------------------------
+
 #include <ntifs.h>
 #include <ntddk.h>
 
@@ -11,7 +14,7 @@
 // Device type macro
 #define FILE_DEVICE_PRIORITYBOOSTER 0x8000
 
-// IOCTL for changing priority of target thread
+// IOCTL macro for changing priority of target thread - 80002003
 #define IOCTL_SET_THREAD_PRIORITY CTL_CODE(FILE_DEVICE_PRIORITYBOOSTER, 0x800, METHOD_NEITHER, FILE_ANY_ACCESS)
 
 // Structs/Enums
@@ -67,16 +70,17 @@ NTSTATUS driver_create_close(PDEVICE_OBJECT pDeviceObject, PIRP pIrp) {
 NTSTATUS set_thread_priority(PTHREAD_DATA pThreadData) {
 	// Init some important stuff
 	USHORT threadId = 0;
-	USHORT threadPriority = 0;
+	USHORT newThreadPriority = 0;
 	NTSTATUS status;
 	PETHREAD pEthread = NULL;
+	USHORT oldThreadPriority = 0;
 
 	// Get TID and requested thread priority
 	threadId = pThreadData->ThreadId;
-	threadPriority = pThreadData->Priority;
+	newThreadPriority = pThreadData->Priority;
 
 	// Check if requested priority value is valid
-	if (threadPriority < 1 || threadPriority > 31) {
+	if (newThreadPriority < 1 || newThreadPriority > 31) {
 		PRINT("Invalid thread priority requested!\n");
 		status = STATUS_INVALID_PARAMETER;
 		return status;
@@ -92,12 +96,12 @@ NTSTATUS set_thread_priority(PTHREAD_DATA pThreadData) {
 	PRINT("Got nt!_PETHREAD structure of target thread!\n");
 
 	// Change run-time priority of target thread
-	KeSetPriorityThread(pEthread, threadPriority);
+	oldThreadPriority = (USHORT)KeSetPriorityThread(pEthread, newThreadPriority);
 
 	// Decrement reference count of target thread object
 	ObDereferenceObject(pEthread);
 
-	PRINT("Successfully changed priority of target thread!\n");
+	PRINT("Successfully changed priority of target thread: %d from %d to %d!\n", threadId, oldThreadPriority, newThreadPriority);
 
 	return status;
 }
@@ -188,7 +192,7 @@ extern "C" NTSTATUS DriverEntry(_In_ PDRIVER_OBJECT pDriverObject, _In_ PUNICODE
 		PRINT("IoCreateDevice error: %X\n", status);
 		return status;
 	}
-	PRINT("Device object created!");
+	PRINT("Device object created!\n");
 
 	// Create symbolic link object pointing to device object for UM access
 	status = IoCreateSymbolicLink(&symbolicLink, &deviceName);
