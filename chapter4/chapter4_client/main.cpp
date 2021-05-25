@@ -49,7 +49,7 @@ int main(int argc, const char* argv[]) {
 	threadData.ThreadId = atoi(argv[1]);
 	threadData.Priority = atoi(argv[2]);
 
-	// Send IRP_MJ_DEVICE_CONTROL request to driver
+	// Send thread priority change IOCTL to driver
 	ret = DeviceIoControl(deviceHandle, IOCTL_SET_THREAD_PRIORITY, &threadData, sizeof(THREAD_DATA), NULL, 0, NULL, NULL);
 	if (ret == 0) {
 		printf("[-] DeviceIoControl error: %d\n", GetLastError());

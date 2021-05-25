@@ -93,7 +93,7 @@ NTSTATUS set_thread_priority(PTHREAD_DATA pThreadData) {
 		PRINT("PsLookupThreadByThreadId error: %X\n", status);
 		return status;
 	}
-	PRINT("Got nt!_PETHREAD structure of target thread!\n");
+	PRINT("Got pointer to nt!_ETHREAD structure of target thread!\n");
 
 	// Change run-time priority of target thread
 	oldThreadPriority = (USHORT)KeSetPriorityThread(pEthread, newThreadPriority);
