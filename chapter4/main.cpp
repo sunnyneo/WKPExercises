@@ -22,7 +22,7 @@
 
 // Input buffer
 typedef struct _THREAD_DATA {
-	USHORT ThreadId;
+	DWORD32 ThreadId;
 	USHORT Priority;
 } THREAD_DATA, *PTHREAD_DATA;
 
@@ -69,7 +69,7 @@ NTSTATUS driver_create_close(PDEVICE_OBJECT pDeviceObject, PIRP pIrp) {
 
 NTSTATUS set_thread_priority(PTHREAD_DATA pThreadData) {
 	// Init some important stuff
-	USHORT threadId = 0;
+	DWORD32 threadId = 0;
 	USHORT newThreadPriority = 0;
 	NTSTATUS status;
 	PETHREAD pEthread = NULL;

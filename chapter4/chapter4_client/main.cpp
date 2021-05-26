@@ -18,7 +18,7 @@
 
 // Input buffer
 typedef struct _THREAD_DATA {
-	USHORT ThreadId;
+	DWORD32 ThreadId;
 	USHORT Priority;
 } THREAD_DATA, * PTHREAD_DATA;
 
