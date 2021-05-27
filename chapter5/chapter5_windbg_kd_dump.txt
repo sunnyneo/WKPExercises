@@ -1,0 +1,112 @@
+Microsoft (R) Windows Debugger Version 10.0.21306.1007 AMD64
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+Using NET for debugging
+Opened WinSock 2.0
+Using IPv4 only.
+Waiting to reconnect...
+Connected to target 192.168.1.9 on port 50000 on local IP 192.168.1.10.
+You can get the target MAC address by running .kdtargetmac command.
+Connected to target 192.168.1.9 on port 50000 on local IP 192.168.1.10.
+You can get the target MAC address by running .kdtargetmac command.
+Connected to Windows 10 19041 x64 target at (Thu May 27 16:01:22.567 2021 (UTC + 1:00)), ptr64 TRUE
+Kernel Debugger connection established.  (Initial Breakpoint requested)
+
+************* Path validation summary **************
+Response                         Time (ms)     Location
+Deferred                                       SRV*C:\Users\slaeryan\Desktop\Tools\Symbols*http://msdl.microsoft.com/download/symbols
+Symbol search path is: SRV*C:\Users\slaeryan\Desktop\Tools\Symbols*http://msdl.microsoft.com/download/symbols
+Executable search path is: 
+Windows 10 Kernel Version 19041 MP (1 procs) Free x64
+Edition build lab: 19041.1.amd64fre.vb_release.191206-1406
+Machine Name:
+Kernel base = 0xfffff807`0b41d000 PsLoadedModuleList = 0xfffff807`0c0473b0
+System Uptime: 0 days 0:00:15.603
+nt!DebugService2+0x5:
+fffff807`0b81a105 cc              int     3
+kd> g
+KDTARGET: Refreshing KD connection
+Break instruction exception - code 80000003 (first chance)
+*******************************************************************************
+*                                                                             *
+*   You are seeing this message because you pressed either                    *
+*       CTRL+C (if you run console kernel debugger) or,                       *
+*       CTRL+BREAK (if you run GUI kernel debugger),                          *
+*   on your debugger machine's keyboard.                                      *
+*                                                                             *
+*                   THIS IS NOT A BUG OR A SYSTEM CRASH                       *
+*                                                                             *
+* If you did not intend to break into the debugger, press the "g" key, then   *
+* press the "Enter" key now.  This message might immediately reappear.  If it *
+* does, press "g" and "Enter" again.                                          *
+*                                                                             *
+*******************************************************************************
+nt!DbgBreakPointWithStatus:
+fffff807`0b81a0b0 cc              int     3
+
+0: kd> .reload
+Connected to Windows 10 19041 x64 target at (Thu May 27 16:10:50.312 2021 (UTC + 1:00)), ptr64 TRUE
+Loading Kernel Symbols
+...............................................................
+...........
+
+Press ctrl-c (cdb, kd, ntsd) or ctrl-break (windbg) to abort symbol loads that take too long.
+Run !sym noisy before .reload to track down problems loading symbols.
+
+.....................................................
+..............................................
+Loading User Symbols
+................................................................
+.................................
+Loading unloaded module list
+......
+
+0: kd> bu chapter4!DriverEntry
+
+0: kd> bl
+     0 e Disable Clear u                      0001 (0001) (chapter4!DriverEntry)
+
+0: kd> g
+Breakpoint 0 hit
+chapter4!DriverEntry:
+fffff807`106f117c 4053            push    rbx
+
+0: kd> k
+ # Child-SP          RetAddr               Call Site
+00 ffff988a`105469c8 fffff807`106f5020     chapter4!DriverEntry [C:\Users\slaeryan\Desktop\UNCLASSIFIED\WKPExercises\chapter4\main.cpp @ 168] 
+01 ffff988a`105469d0 fffff807`0bb708f4     chapter4!GsDriverEntry+0x20 [minkernel\tools\gs_support\kmodefastfail\gs_driverentry.c @ 47] 
+02 ffff988a`10546a00 fffff807`0bb3b3cd     nt!PnpCallDriverEntry+0x4c
+03 ffff988a`10546a60 fffff807`0bb81207     nt!IopLoadDriver+0x4e5
+04 ffff988a`10546c30 fffff807`0b7204b5     nt!IopLoadUnloadDriver+0x57
+05 ffff988a`10546c70 fffff807`0b6bf9a5     nt!ExpWorkerThread+0x105
+06 ffff988a`10546d10 fffff807`0b819868     nt!PspSystemThreadStartup+0x55
+07 ffff988a`10546d60 00000000`00000000     nt!KiStartSystemThread+0x28
+
+0: kd> g
+Breakpoint 1 hit
+chapter4!driver_device_control+0x14:
+fffff807`106f1034 81781803200080  cmp     dword ptr [rax+18h],80002003h
+
+1: kd> p
+chapter4!driver_device_control+0x24:
+fffff807`106f1044 83781008        cmp     dword ptr [rax+10h],8
+
+1: kd> p
+chapter4!driver_device_control+0x31:
+fffff807`106f1051 488b4820        mov     rcx,qword ptr [rax+20h]
+
+1: kd> p
+chapter4!driver_device_control+0x35:
+fffff807`106f1055 4885c9          test    rcx,rcx
+
+1: kd> p
+chapter4!driver_device_control+0x41:
+fffff807`106f1061 e85e000000      call    chapter4!set_thread_priority (fffff807`106f10c4)
+
+1: kd> p
+chapter4!driver_device_control+0x48:
+fffff807`106f1068 4883673800      and     qword ptr [rdi+38h],0
+
+1: kd> p
+chapter4!driver_device_control+0x4d:
+fffff807`106f106d 33d2            xor     edx,edx
