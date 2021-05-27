@@ -1,0 +1,1178 @@
+lkd> !process 0 0
+**** NT ACTIVE PROCESS DUMP ****
+PROCESS ffffaf04edc86040
+    SessionId: none  Cid: 0004    Peb: 00000000  ParentCid: 0000
+    DirBase: 001ad000  ObjectTable: ffff87082a208d80  HandleCount: 2185.
+    Image: System
+
+PROCESS ffffaf04edcf1080
+    SessionId: none  Cid: 005c    Peb: 00000000  ParentCid: 0004
+    DirBase: 00649000  ObjectTable: ffff87082a28f1c0  HandleCount:   0.
+    Image: Registry
+
+PROCESS ffffaf04efd61040
+    SessionId: none  Cid: 0128    Peb: 9bd7e04000  ParentCid: 0004
+    DirBase: 101016000  ObjectTable: ffff87082a7d9280  HandleCount:  53.
+    Image: smss.exe
+
+PROCESS ffffaf04f1231140
+    SessionId: 0  Cid: 0194    Peb: e79a915000  ParentCid: 018c
+    DirBase: 106bca000  ObjectTable: ffff87082d89c900  HandleCount: 481.
+    Image: csrss.exe
+
+PROCESS ffffaf04f1b5f080
+    SessionId: 0  Cid: 01dc    Peb: e88138e000  ParentCid: 018c
+    DirBase: 10b664000  ObjectTable: ffff87082d8a09c0  HandleCount: 168.
+    Image: wininit.exe
+
+PROCESS ffffaf04f1b66080
+    SessionId: 1  Cid: 01ec    Peb: 813b507000  ParentCid: 01d4
+    DirBase: 106631000  ObjectTable: ffff87082d8a07c0  HandleCount: 412.
+    Image: csrss.exe
+
+PROCESS ffffaf04f1ba2080
+    SessionId: 1  Cid: 0240    Peb: c055fb2000  ParentCid: 01d4
+    DirBase: 10cb33000  ObjectTable: ffff87082d89f9c0  HandleCount: 287.
+    Image: winlogon.exe
+
+PROCESS ffffaf04f1b5e080
+    SessionId: 0  Cid: 0250    Peb: 9c5737c000  ParentCid: 01dc
+    DirBase: 108a1e000  ObjectTable: ffff87082d8a1f00  HandleCount: 586.
+    Image: services.exe
+
+PROCESS ffffaf04f1ba5180
+    SessionId: 0  Cid: 0270    Peb: f5ea6f3000  ParentCid: 01dc
+    DirBase: 10b223000  ObjectTable: ffff87082aba7380  HandleCount: 967.
+    Image: lsass.exe
+
+PROCESS ffffaf04f2226080
+    SessionId: 0  Cid: 02e8    Peb: 2199cd9000  ParentCid: 0250
+    DirBase: 10b17c000  ObjectTable: ffff87082da4d580  HandleCount:  55.
+    Image: svchost.exe
+
+PROCESS ffffaf04f222f240
+    SessionId: 0  Cid: 02fc    Peb: b224cd000  ParentCid: 01dc
+    DirBase: 10e650000  ObjectTable: ffff87082da4b580  HandleCount:  39.
+    Image: fontdrvhost.exe
+
+PROCESS ffffaf04f222d240
+    SessionId: 1  Cid: 0304    Peb: 9a834b4000  ParentCid: 0240
+    DirBase: 10e6d6000  ObjectTable: ffff87082da4b6c0  HandleCount:  39.
+    Image: fontdrvhost.exe
+
+PROCESS ffffaf04f2240340
+    SessionId: 0  Cid: 0340    Peb: c0f5fb3000  ParentCid: 0250
+    DirBase: 10e8ca000  ObjectTable: ffff87082da4e140  HandleCount: 1010.
+    Image: svchost.exe
+
+PROCESS ffffaf04f225d240
+    SessionId: 0  Cid: 0370    Peb: 71f6d1a000  ParentCid: 0250
+    DirBase: 10d136000  ObjectTable: ffff87082db77180  HandleCount: 1048.
+    Image: svchost.exe
+
+PROCESS ffffaf04f22e5080
+    SessionId: 0  Cid: 03b0    Peb: f56fadc000  ParentCid: 0250
+    DirBase: 10e7aa000  ObjectTable: ffff87082db7ae40  HandleCount: 265.
+    Image: svchost.exe
+
+PROCESS ffffaf04f23c0180
+    SessionId: 1  Cid: 03fc    Peb: 2b0232d000  ParentCid: 0240
+    DirBase: 101146000  ObjectTable: 00000000  HandleCount:   0.
+    Image: LogonUI.exe
+
+PROCESS ffffaf04f23be100
+    SessionId: 1  Cid: 003c    Peb: ad0612f000  ParentCid: 0240
+    DirBase: 10db68000  ObjectTable: ffff87082db7cc00  HandleCount: 1013.
+    Image: dwm.exe
+
+PROCESS ffffaf04f241c080
+    SessionId: 0  Cid: 0380    Peb: f2e2b36000  ParentCid: 0250
+    DirBase: 110767000  ObjectTable: ffff87082dc94040  HandleCount: 202.
+    Image: svchost.exe
+
+PROCESS ffffaf04f242c0c0
+    SessionId: 0  Cid: 03f8    Peb: 40ec227000  ParentCid: 0250
+    DirBase: 10cf3b000  ObjectTable: ffff87082dc95b00  HandleCount: 144.
+    Image: svchost.exe
+
+PROCESS ffffaf04f244f080
+    SessionId: 0  Cid: 042c    Peb: e7110ca000  ParentCid: 0250
+    DirBase: 10f5b6000  ObjectTable: ffff87082dc98ac0  HandleCount: 384.
+    Image: svchost.exe
+
+PROCESS ffffaf04f24700c0
+    SessionId: 0  Cid: 0450    Peb: ecf0f20000  ParentCid: 0250
+    DirBase: 111a48000  ObjectTable: ffff87082dc978c0  HandleCount: 149.
+    Image: svchost.exe
+
+PROCESS ffffaf04f24a9080
+    SessionId: 0  Cid: 047c    Peb: c4fe9a2000  ParentCid: 0250
+    DirBase: 10fd5f000  ObjectTable: ffff87082dda6800  HandleCount: 241.
+    Image: svchost.exe
+
+PROCESS ffffaf04f24af080
+    SessionId: 0  Cid: 0488    Peb: d6f4c44000  ParentCid: 0250
+    DirBase: 111bac000  ObjectTable: ffff87082dda9040  HandleCount: 385.
+    Image: svchost.exe
+
+PROCESS ffffaf04f24f3080
+    SessionId: 0  Cid: 04e8    Peb: 9495c60000  ParentCid: 0250
+    DirBase: 1128b1000  ObjectTable: ffff87082ddab140  HandleCount: 236.
+    Image: svchost.exe
+
+PROCESS ffffaf04f25020c0
+    SessionId: 0  Cid: 0508    Peb: 3b953ef000  ParentCid: 0250
+    DirBase: 112d6c000  ObjectTable: ffff87082ddaa7c0  HandleCount: 122.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2541080
+    SessionId: 0  Cid: 053c    Peb: 98ed64a000  ParentCid: 0250
+    DirBase: 10ef49000  ObjectTable: ffff87082de923c0  HandleCount: 205.
+    Image: svchost.exe
+
+PROCESS ffffaf04f256d080
+    SessionId: 0  Cid: 0568    Peb: 968730d000  ParentCid: 0250
+    DirBase: 1114aa000  ObjectTable: ffff87082de913c0  HandleCount: 227.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2574080
+    SessionId: 0  Cid: 058c    Peb: af8e303000  ParentCid: 0250
+    DirBase: 113f53000  ObjectTable: ffff87082de935c0  HandleCount: 120.
+    Image: svchost.exe
+
+PROCESS ffffaf04f25e8080
+    SessionId: 0  Cid: 05c4    Peb: df9321000  ParentCid: 0250
+    DirBase: 112274000  ObjectTable: ffff87082de96e00  HandleCount: 105.
+    Image: vm3dservice.exe
+
+PROCESS ffffaf04f2620080
+    SessionId: 0  Cid: 0608    Peb: ce7c4b1000  ParentCid: 0250
+    DirBase: 114ef7000  ObjectTable: ffff87082de97ac0  HandleCount: 369.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2671080
+    SessionId: 0  Cid: 0654    Peb: d1cb68b000  ParentCid: 0250
+    DirBase: 111913000  ObjectTable: ffff87082de9af00  HandleCount: 166.
+    Image: svchost.exe
+
+PROCESS ffffaf04f26130c0
+    SessionId: 0  Cid: 065c    Peb: cb49a9e000  ParentCid: 0250
+    DirBase: 115f5b000  ObjectTable: ffff87082de9b200  HandleCount: 421.
+    Image: svchost.exe
+
+PROCESS ffffaf04f266f080
+    SessionId: 0  Cid: 066c    Peb: 1244e6f000  ParentCid: 0250
+    DirBase: 111952000  ObjectTable: ffff87082de9cdc0  HandleCount: 222.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2719340
+    SessionId: 0  Cid: 06ac    Peb: 1c341e4000  ParentCid: 0250
+    DirBase: 116cc7000  ObjectTable: ffff87082de9eb80  HandleCount: 163.
+    Image: svchost.exe
+
+PROCESS ffffaf04f273c040
+    SessionId: none  Cid: 06c4    Peb: 00000000  ParentCid: 0004
+    DirBase: 117363000  ObjectTable: ffff87082e2a5b40  HandleCount:   0.
+    Image: MemCompression
+
+PROCESS ffffaf04f2757080
+    SessionId: 0  Cid: 06d4    Peb: 257714f000  ParentCid: 0250
+    DirBase: 113360000  ObjectTable: ffff87082e2a5940  HandleCount: 172.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2764080
+    SessionId: 0  Cid: 06f0    Peb: 916f33000  ParentCid: 0250
+    DirBase: 113209000  ObjectTable: ffff87082e2a82c0  HandleCount: 308.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2765080
+    SessionId: 0  Cid: 06f8    Peb: 8ae5ff0000  ParentCid: 0250
+    DirBase: 1133c2000  ObjectTable: ffff87082e2a7c40  HandleCount: 140.
+    Image: svchost.exe
+
+PROCESS ffffaf04f278c240
+    SessionId: 0  Cid: 076c    Peb: efaad77000  ParentCid: 0250
+    DirBase: 1142bf000  ObjectTable: ffff87082e2aba00  HandleCount: 340.
+    Image: svchost.exe
+
+PROCESS ffffaf04f1b020c0
+    SessionId: 0  Cid: 07e8    Peb: 246d10d000  ParentCid: 0250
+    DirBase: 1191fd000  ObjectTable: ffff87082e4a3a00  HandleCount: 124.
+    Image: svchost.exe
+
+PROCESS ffffaf04edd95080
+    SessionId: 0  Cid: 07f0    Peb: f49ddd6000  ParentCid: 0250
+    DirBase: 10ae38000  ObjectTable: ffff87082e4a5040  HandleCount: 265.
+    Image: svchost.exe
+
+PROCESS ffffaf04edd86080
+    SessionId: 0  Cid: 07fc    Peb: 95c51e4000  ParentCid: 0250
+    DirBase: 1190fb000  ObjectTable: ffff87082e4a6480  HandleCount: 355.
+    Image: svchost.exe
+
+PROCESS ffffaf04edd84080
+    SessionId: 0  Cid: 046c    Peb: 9c3bd06000  ParentCid: 0250
+    DirBase: 1167d4000  ObjectTable: ffff87082e4a66c0  HandleCount: 184.
+    Image: svchost.exe
+
+PROCESS ffffaf04edd4d080
+    SessionId: 0  Cid: 07e0    Peb: 53fd0cb000  ParentCid: 0250
+    DirBase: 01402000  ObjectTable: ffff87082e4aaf00  HandleCount: 201.
+    Image: svchost.exe
+
+PROCESS ffffaf04f29c5340
+    SessionId: 0  Cid: 087c    Peb: 007f5000  ParentCid: 0250
+    DirBase: 119ea0000  ObjectTable: ffff87082e2a95c0  HandleCount: 433.
+    Image: spoolsv.exe
+
+PROCESS ffffaf04f29cb080
+    SessionId: 0  Cid: 08a4    Peb: 69fbc84000  ParentCid: 0250
+    DirBase: 11c6cf000  ObjectTable: ffff87082e8b0600  HandleCount: 392.
+    Image: svchost.exe
+
+PROCESS ffffaf04f29e2080
+    SessionId: 0  Cid: 08d0    Peb: f430515000  ParentCid: 0250
+    DirBase: 11c77f000  ObjectTable: ffff87082e8b1900  HandleCount: 153.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2a07080
+    SessionId: 0  Cid: 08f0    Peb: 8eaa232000  ParentCid: 0250
+    DirBase: 11ab60000  ObjectTable: ffff87082e8b24c0  HandleCount: 183.
+    Image: svchost.exe
+
+PROCESS ffffaf04f27f3080
+    SessionId: 1  Cid: 0924    Peb: f0faebf000  ParentCid: 04e8
+    DirBase: 117701000  ObjectTable: ffff87082e8b5280  HandleCount: 558.
+    Image: sihost.exe
+
+PROCESS ffffaf04f2a2a080
+    SessionId: 1  Cid: 0940    Peb: 90978a3000  ParentCid: 0250
+    DirBase: 11d74f000  ObjectTable: ffff87082e8b47c0  HandleCount: 295.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2a68080
+    SessionId: 1  Cid: 0980    Peb: 335d476000  ParentCid: 0250
+    DirBase: 119cdb000  ObjectTable: ffff87082e8b6040  HandleCount: 413.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2a62080
+    SessionId: 0  Cid: 09f4    Peb: 17577f5000  ParentCid: 0250
+    DirBase: 11ccce000  ObjectTable: ffff87082e8ba340  HandleCount: 306.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2a25080
+    SessionId: 0  Cid: 0a00    Peb: 77dfd90000  ParentCid: 0250
+    DirBase: 11cd52000  ObjectTable: ffff87082e8bacc0  HandleCount: 235.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2a8e080
+    SessionId: 1  Cid: 0a0c    Peb: ce04854000  ParentCid: 042c
+    DirBase: 11acbd000  ObjectTable: ffff87082e8b9e00  HandleCount: 297.
+    Image: taskhostw.exe
+
+PROCESS ffffaf04f2a91080
+    SessionId: 0  Cid: 0a14    Peb: 606c8fd000  ParentCid: 0250
+    DirBase: 11ac6d000  ObjectTable: ffff87082e8bb100  HandleCount: 315.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2ab2080
+    SessionId: 0  Cid: 0a44    Peb: c7454a7000  ParentCid: 0250
+    DirBase: 11d09a000  ObjectTable: ffff87082e8bd540  HandleCount: 408.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2b55080
+    SessionId: 0  Cid: 0abc    Peb: 85533f3000  ParentCid: 0250
+    DirBase: 11f92c000  ObjectTable: ffff87082ec16740  HandleCount: 213.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2b56080
+    SessionId: 0  Cid: 0acc    Peb: 479fdb5000  ParentCid: 0250
+    DirBase: 11fa91000  ObjectTable: ffff87082ec16ec0  HandleCount: 123.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2bbb080
+    SessionId: 0  Cid: 0af4    Peb: 82a23ce000  ParentCid: 0250
+    DirBase: 11fc1b000  ObjectTable: ffff87082ec17940  HandleCount: 203.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2bfa080
+    SessionId: 0  Cid: 0b44    Peb: f7d2fda000  ParentCid: 0250
+    DirBase: 11bf88000  ObjectTable: ffff87082ec1a2c0  HandleCount: 285.
+    Image: vmtoolsd.exe
+
+PROCESS ffffaf04f2bd5080
+    SessionId: 0  Cid: 0b78    Peb: eb3244000  ParentCid: 0250
+    DirBase: 11c475000  ObjectTable: ffff87082ec1ba40  HandleCount: 169.
+    Image: VGAuthService.exe
+
+PROCESS ffffaf04f2b6f0c0
+    SessionId: 0  Cid: 0bd8    Peb: 94bae25000  ParentCid: 0250
+    DirBase: 11ceb6000  ObjectTable: ffff87082ec15dc0  HandleCount: 363.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2c27080
+    SessionId: 0  Cid: 0bec    Peb: d7f0135000  ParentCid: 0250
+    DirBase: 11f3a4000  ObjectTable: ffff87082ec1e7c0  HandleCount: 101.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2c05080
+    SessionId: 0  Cid: 0974    Peb: 9ea1ae000  ParentCid: 0250
+    DirBase: 121b77000  ObjectTable: ffff87082ec22e00  HandleCount: 163.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2d7a080
+    SessionId: 1  Cid: 0cd0    Peb: f8685cf000  ParentCid: 0974
+    DirBase: 1215e4000  ObjectTable: ffff87082ec28740  HandleCount: 432.
+    Image: ctfmon.exe
+
+PROCESS ffffaf04f2e450c0
+    SessionId: 0  Cid: 0ddc    Peb: 2bfb0ef000  ParentCid: 0250
+    DirBase: 11e958000  ObjectTable: ffff87082ec31480  HandleCount: 300.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2e5a080
+    SessionId: 0  Cid: 0dec    Peb: acc288f000  ParentCid: 0250
+    DirBase: 1210c5000  ObjectTable: ffff87082ec30d00  HandleCount: 257.
+    Image: dllhost.exe
+
+PROCESS ffffaf04f2e60080
+    SessionId: 1  Cid: 0e24    Peb: 5d0da36000  ParentCid: 0240
+    DirBase: 1200c7000  ObjectTable: 00000000  HandleCount:   0.
+    Image: userinit.exe
+
+PROCESS ffffaf04f2e7c080
+    SessionId: 1  Cid: 0e68    Peb: 0021f000  ParentCid: 0e24
+    DirBase: 124936000  ObjectTable: ffff87082f0082c0  HandleCount: 2391.
+    Image: explorer.exe
+
+PROCESS ffffaf04f304b0c0
+    SessionId: 0  Cid: 0f20    Peb: 48ccd82000  ParentCid: 0250
+    DirBase: 12431c000  ObjectTable: ffff87082f00ad40  HandleCount: 210.
+    Image: svchost.exe
+
+PROCESS ffffaf04f308e0c0
+    SessionId: 0  Cid: 0f80    Peb: 5559b31000  ParentCid: 0340
+    DirBase: 1266ba000  ObjectTable: ffff87082f006ec0  HandleCount: 353.
+    Image: WmiPrvSE.exe
+
+PROCESS ffffaf04f3110080
+    SessionId: 1  Cid: 02e0    Peb: 8570c9e000  ParentCid: 0250
+    DirBase: 1306c6000  ObjectTable: ffff87082f013dc0  HandleCount: 316.
+    Image: svchost.exe
+
+PROCESS ffffaf04f31d1080
+    SessionId: 0  Cid: 1014    Peb: 7c34b46000  ParentCid: 0250
+    DirBase: 12dfcf000  ObjectTable: ffff87082f01f6c0  HandleCount: 222.
+    Image: msdtc.exe
+
+PROCESS ffffaf04f329c080
+    SessionId: 1  Cid: 112c    Peb: 8c35605000  ParentCid: 0340
+    DirBase: 137388000  ObjectTable: ffff87082f54d940  HandleCount: 590.
+    Image: StartMenuExperienceHost.exe
+
+PROCESS ffffaf04f343d240
+    SessionId: 1  Cid: 11e8    Peb: 400bcb9000  ParentCid: 0340
+    DirBase: 132313000  ObjectTable: ffff87082f5524c0  HandleCount: 198.
+    Image: RuntimeBroker.exe
+
+PROCESS ffffaf04f34790c0
+    SessionId: 1  Cid: 1264    Peb: cb5b0c2000  ParentCid: 0340
+DeepFreeze
+    DirBase: 1346f2000  ObjectTable: ffff87082ec17a80  HandleCount: 1343.
+    Image: SearchApp.exe
+
+PROCESS ffffaf04f347f240
+    SessionId: 1  Cid: 1340    Peb: ff6fab000  ParentCid: 0340
+    DirBase: 136685000  ObjectTable: ffff87082f55a200  HandleCount: 692.
+    Image: RuntimeBroker.exe
+
+PROCESS ffffaf04f2e05080
+    SessionId: 1  Cid: 13b4    Peb: 6e642a3000  ParentCid: 0340
+    DirBase: 1379a7000  ObjectTable: ffff87082f020380  HandleCount: 673.
+    Image: ShellExperienceHost.exe
+
+PROCESS ffffaf04f38850c0
+    SessionId: 1  Cid: 1418    Peb: 58bd33a000  ParentCid: 0340
+DeepFreeze
+    DirBase: 0605c000  ObjectTable: ffff87082fbc5500  HandleCount: 499.
+    Image: LockApp.exe
+
+PROCESS ffffaf04f38e50c0
+    SessionId: 0  Cid: 1434    Peb: fd43762000  ParentCid: 0250
+    DirBase: 0a1f1000  ObjectTable: ffff87082fbc8700  HandleCount: 710.
+    Image: SearchIndexer.exe
+
+PROCESS ffffaf04f38bd080
+    SessionId: 1  Cid: 1468    Peb: 460b3ff000  ParentCid: 0340
+    DirBase: 06820000  ObjectTable: ffff87082fbcca00  HandleCount: 291.
+    Image: RuntimeBroker.exe
+
+PROCESS ffffaf04f3965080
+    SessionId: 1  Cid: 14fc    Peb: 6a9ffd5000  ParentCid: 0340
+    DirBase: 0c0fa000  ObjectTable: ffff87082fbd0140  HandleCount: 312.
+    Image: RuntimeBroker.exe
+
+PROCESS ffffaf04f3a54080
+    SessionId: 0  Cid: 15c4    Peb: 32df3e5000  ParentCid: 0250
+    DirBase: 0a78e000  ObjectTable: ffff87082fbdc5c0  HandleCount: 136.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2ab1080
+    SessionId: 1  Cid: 170c    Peb: 6f53663000  ParentCid: 0340
+    DirBase: 0b318000  ObjectTable: ffff87082fbd71c0  HandleCount: 323.
+    Image: RuntimeBroker.exe
+
+PROCESS ffffaf04f3a560c0
+    SessionId: 1  Cid: 179c    Peb: a50a4fd000  ParentCid: 0e68
+    DirBase: 13a53000  ObjectTable: ffff87082ec16400  HandleCount: 110.
+    Image: vm3dservice.exe
+
+PROCESS ffffaf04f25e7080
+    SessionId: 1  Cid: 17b4    Peb: 6ecf8fc000  ParentCid: 0e68
+    DirBase: 18e05000  ObjectTable: ffff870830128500  HandleCount: 345.
+    Image: vmtoolsd.exe
+
+PROCESS ffffaf04f360d080
+    SessionId: 0  Cid: 15f8    Peb: 8b7ea7000  ParentCid: 0250
+    DirBase: 12651b000  ObjectTable: ffff8708309a6500  HandleCount: 195.
+    Image: svchost.exe
+
+PROCESS ffffaf04f3be5080
+    SessionId: 0  Cid: 0f34    Peb: a48faf5000  ParentCid: 0250
+    DirBase: 1255c7000  ObjectTable: ffff8708309be6c0  HandleCount: 258.
+    Image: svchost.exe
+
+PROCESS ffffaf04f3c91080
+    SessionId: 1  Cid: 1660    Peb: d6ca6b9000  ParentCid: 0340
+    DirBase: 1d8bb000  ObjectTable: ffff8708309bff00  HandleCount: 530.
+    Image: TextInputHost.exe
+
+PROCESS ffffaf04f3c8e080
+    SessionId: 1  Cid: 015c    Peb: 98fc8b6000  ParentCid: 0340
+    DirBase: 1a484000  ObjectTable: ffff8708309ab180  HandleCount: 265.
+    Image: ApplicationFrameHost.exe
+
+PROCESS ffffaf04f360a080
+    SessionId: 1  Cid: 01f8    Peb: 4f10b45000  ParentCid: 0250
+    DirBase: 1e2e7000  ObjectTable: ffff87082f55c840  HandleCount: 248.
+    Image: svchost.exe
+
+PROCESS ffffaf04f1ac10c0
+    SessionId: 0  Cid: 162c    Peb: 920b8a9000  ParentCid: 0250
+    DirBase: 133847000  ObjectTable: ffff8708309c80c0  HandleCount: 243.
+    Image: svchost.exe
+
+PROCESS ffffaf04f2a7c080
+    SessionId: 0  Cid: 11a4    Peb: b70540e000  ParentCid: 0250
+    DirBase: 11766a000  ObjectTable: ffff8708309d0d00  HandleCount: 219.
+    Image: svchost.exe
+
+PROCESS ffffaf04f3a4e080
+    SessionId: 0  Cid: 1228    Peb: f9737c1000  ParentCid: 0250
+    DirBase: 21670000  ObjectTable: ffff8708309c1680  HandleCount: 103.
+    Image: SgrmBroker.exe
+
+PROCESS ffffaf04f276b080
+    SessionId: 0  Cid: 0a84    Peb: 8670381000  ParentCid: 0250
+    DirBase: 1c6a9000  ObjectTable: ffff8708309d4340  HandleCount: 302.
+    Image: svchost.exe
+
+PROCESS ffffaf04f3914080
+    SessionId: 0  Cid: 152c    Peb: bce6554000  ParentCid: 0250
+    DirBase: 17b6a000  ObjectTable: ffff87082f01a800  HandleCount: 209.
+    Image: svchost.exe
+
+PROCESS ffffaf04edcd5080
+    SessionId: 1  Cid: 11ac    Peb: acd4deb000  ParentCid: 0184
+    DirBase: 2f9a3000  ObjectTable: ffff87082f55e300  HandleCount: 320.
+    Image: MusNotifyIcon.exe
+
+PROCESS ffffaf04f3c90080
+    SessionId: 1  Cid: 0e7c    Peb: beb6902000  ParentCid: 0340
+    DirBase: 0a5de000  ObjectTable: ffff87082ec1dd40  HandleCount: 128.
+    Image: UserOOBEBroker.exe
+
+PROCESS ffffaf04f3a62080
+    SessionId: 0  Cid: 1360    Peb: 6105def000  ParentCid: 0250
+    DirBase: 3ef73000  ObjectTable: ffff8708322c9ac0  HandleCount: 183.
+    Image: svchost.exe
+
+PROCESS ffffaf04f309a080
+    SessionId: 0  Cid: 16b8    Peb: 62883d8000  ParentCid: 0250
+    DirBase: 39875000  ObjectTable: ffff87083211e7c0  HandleCount: 116.
+    Image: svchost.exe
+
+PROCESS ffffaf04f3eec080
+    SessionId: 0  Cid: 0354    Peb: fc49639000  ParentCid: 0250
+    DirBase: bc84a000  ObjectTable: ffff870832105b80  HandleCount: 290.
+    Image: svchost.exe
+
+PROCESS ffffaf04f39e0080
+    SessionId: 0  Cid: 0228    Peb: 919be80000  ParentCid: 0250
+    DirBase: 379c2000  ObjectTable: ffff87083211de40  HandleCount: 201.
+    Image: svchost.exe
+
+PROCESS ffffaf04f3bdc080
+    SessionId: 0  Cid: 0444    Peb: 3b9b355000  ParentCid: 0250
+    DirBase: 37cb4000  ObjectTable: ffff870832b06640  HandleCount: 185.
+    Image: svchost.exe
+
+PROCESS ffffaf04f3bcd080
+    SessionId: 1  Cid: 04d8    Peb: b66a7ba000  ParentCid: 0340
+    DirBase: bf59a000  ObjectTable: ffff870833a36440  HandleCount: 220.
+    Image: dllhost.exe
+
+PROCESS ffffaf04f3050080
+    SessionId: 0  Cid: 109c    Peb: 2861197000  ParentCid: 0340
+    DirBase: bc190000  ObjectTable: ffff870833b26800  HandleCount: 198.
+    Image: MoUsoCoreWorker.exe
+
+PROCESS ffffaf04f2a65080
+    SessionId: 0  Cid: 0958    Peb: 4e8717000  ParentCid: 0250
+    DirBase: 3e325000  ObjectTable: 00000000  HandleCount:   0.
+    Image: svchost.exe
+
+PROCESS ffffaf04f31d4080
+    SessionId: 0  Cid: 0da0    Peb: 83f474c000  ParentCid: 076c
+    DirBase: 123d49000  ObjectTable: ffff870833a3d700  HandleCount: 163.
+    Image: audiodg.exe
+
+PROCESS ffffaf04f3317080
+    SessionId: 1  Cid: 1218    Peb: 9d16446000  ParentCid: 0e68
+    DirBase: b1846000  ObjectTable: ffff870833b2e440  HandleCount: 803.
+    Image: DbgX.Shell.exe
+
+PROCESS ffffaf04f30f0080
+    SessionId: 1  Cid: 1470    Peb: be3f42f000  ParentCid: 1218
+    DirBase: 9ec3d000  ObjectTable: 00000000  HandleCount:   0.
+    Image: EngHost.exe
+
+PROCESS ffffaf04f2b47080
+    SessionId: 1  Cid: 077c    Peb: dce3fed000  ParentCid: 0340
+    DirBase: 1ad64000  ObjectTable: ffff870833b38080  HandleCount: 352.
+    Image: smartscreen.exe
+
+PROCESS ffffaf04f349b300
+    SessionId: 1  Cid: 07a4    Peb: 6f7f177000  ParentCid: 0340
+    DirBase: ae694000  ObjectTable: ffff870832b07c80  HandleCount: 269.
+    Image: dllhost.exe
+
+PROCESS ffffaf04f3959080
+    SessionId: 1  Cid: 0d3c    Peb: 4bfbde7000  ParentCid: 1218
+    DirBase: b2e7b000  ObjectTable: 00000000  HandleCount:   0.
+    Image: EngHost.exe
+
+PROCESS ffffaf04f3ce3080
+    SessionId: 0  Cid: 12a0    Peb: b4ab56d000  ParentCid: 1434
+    DirBase: a2ae8000  ObjectTable: ffff870833b35a40  HandleCount: 336.
+    Image: SearchProtocolHost.exe
+
+PROCESS ffffaf04f3313300
+    SessionId: 0  Cid: 0c5c    Peb: 30aeed3000  ParentCid: 1434
+    DirBase: 9e841000  ObjectTable: ffff870833b3d040  HandleCount: 137.
+    Image: SearchFilterHost.exe
+
+PROCESS ffffaf04f2762080
+    SessionId: 1  Cid: 177c    Peb: 2a119dd000  ParentCid: 1218
+    DirBase: a364e000  ObjectTable: 00000000  HandleCount:   0.
+    Image: EngHost.exe
+
+PROCESS ffffaf04f5ae9080
+    SessionId: 1  Cid: 16f4    Peb: ee67654000  ParentCid: 1218
+    DirBase: a4dc8000  ObjectTable: 00000000  HandleCount:   0.
+    Image: EngHost.exe
+
+PROCESS ffffaf04f56bf080
+    SessionId: 1  Cid: 11fc    Peb: 5b87cc000  ParentCid: 1218
+    DirBase: 13c062000  ObjectTable: 00000000  HandleCount:   0.
+    Image: EngHost.exe
+
+PROCESS ffffaf04f23e32c0
+    SessionId: 1  Cid: 1748    Peb: 6b84dd3000  ParentCid: 1218
+    DirBase: afd37000  ObjectTable: ffff870832102880  HandleCount: 162.
+    Image: EngHost.exe
+
+PROCESS ffffaf04f3ef02c0
+    SessionId: 1  Cid: 14e4    Peb: 1a08f85000  ParentCid: 0e68
+    DirBase: a7a9e000  ObjectTable: ffff870833b3f780  HandleCount: 508.
+    Image: sublime_text.exe
+
+PROCESS ffffaf04f33b2080
+    SessionId: 1  Cid: 0574    Peb: 8355d41000  ParentCid: 14e4
+    DirBase: b9685000  ObjectTable: ffff870833b440c0  HandleCount: 233.
+    Image: plugin_host.exe
+
+PROCESS ffffaf04f3a48080
+    SessionId: 0  Cid: 059c    Peb: 3b9109f000  ParentCid: 0250
+    DirBase: 116baa000  ObjectTable: ffff870833b3e580  HandleCount: 123.
+    Image: svchost.exe
+
+PROCESS ffffaf04f5bd4080
+    SessionId: 0  Cid: 138c    Peb: 68fffa7000  ParentCid: 0250
+    DirBase: 9d090000  ObjectTable: ffff870833b42540  HandleCount: 172.
+    Image: svchost.exe
+
+PROCESS ffffaf04f322a080
+    SessionId: 1  Cid: 1100    Peb: f1d31f5000  ParentCid: 0340
+DeepFreeze
+    DirBase: 109d7000  ObjectTable: ffff870833b42440  HandleCount: 194.
+    Image: backgroundTaskHost.exe
+
+PROCESS ffffaf04f3ef6080
+    SessionId: 0  Cid: 092c    Peb: 3427237000  ParentCid: 0250
+    DirBase: 9d04a000  ObjectTable: ffff870833b45600  HandleCount: 114.
+    Image: svchost.exe
+
+lkd> !process 0 0 csrss.exe
+PROCESS ffffaf04f1231140
+    SessionId: 0  Cid: 0194    Peb: e79a915000  ParentCid: 018c
+    DirBase: 106bca000  ObjectTable: ffff87082d89c900  HandleCount: 476.
+    Image: csrss.exe
+
+PROCESS ffffaf04f1b66080
+    SessionId: 1  Cid: 01ec    Peb: 813b507000  ParentCid: 01d4
+    DirBase: 106631000  ObjectTable: ffff87082d8a07c0  HandleCount: 410.
+    Image: csrss.exe
+
+lkd> !process ffffaf04f1231140
+PROCESS ffffaf04f1231140
+    SessionId: 0  Cid: 0194    Peb: e79a915000  ParentCid: 018c
+    DirBase: 106bca000  ObjectTable: ffff87082d89c900  HandleCount: 476.
+    Image: csrss.exe
+    VadRoot ffffaf04f26a65b0 Vads 138 Clone 0 Private 233. Modified 288. Locked 0.
+    DeviceMap ffff87082a247240
+    Token                             ffff87082adf7060
+    ElapsedTime                       00:31:37.546
+    UserTime                          00:00:00.000
+    KernelTime                        00:00:00.125
+    QuotaPoolUsage[PagedPool]         218088
+    QuotaPoolUsage[NonPagedPool]      19368
+    Working Set Sizes (now,min,max)  (1335, 50, 345) (5340KB, 200KB, 1380KB)
+    PeakWorkingSetSize                1302
+    VirtualSize                       2101337 Mb
+    PeakVirtualSize                   2101338 Mb
+    PageFaultCount                    2870
+    MemoryPriority                    BACKGROUND
+    BasePriority                      13
+    CommitCharge                      405
+
+        THREAD ffffaf04f1296080  Cid 0194.01a4  Teb: 000000e79a91c000 Win32Thread: ffffaf04f12fbee0 WAIT: (WrLpcReceive) UserMode Non-Alertable
+            ffffaf04f1296508  Semaphore Limit 0x1
+        Not impersonating
+        DeviceMap                 ffff87082a247240
+        Owning Process            ffffaf04f1231140       Image:         csrss.exe
+        Attached Process          N/A            Image:         N/A
+        Wait Start TickCount      121391         Ticks: 587 (0:00:00:09.171)
+        Context Switch Count      1509           IdealProcessor: 0             
+        UserTime                  00:00:00.015
+        KernelTime                00:00:00.062
+        Win32 Start Address 0x00007ffae0e35fc0
+        Stack Init ffff9907e2a6fc90 Current ffff9907e2a6f420
+        Base ffff9907e2a70000 Limit ffff9907e2a6a000 Call 0000000000000000
+        Priority 14 BasePriority 13 PriorityDecrement 0 IoPriority 2 PagePriority 5
+        Child-SP          RetAddr               Call Site
+        ffff9907`e2a6f460 fffff804`436dfe60     nt!KiSwapContext+0x76
+        ffff9907`e2a6f5a0 fffff804`436df38f     nt!KiSwapThread+0x500
+        ffff9907`e2a6f650 fffff804`436dec33     nt!KiCommitThreadWait+0x14f
+        ffff9907`e2a6f6f0 fffff804`4368f752     nt!KeWaitForSingleObject+0x233
+        ffff9907`e2a6f7e0 fffff804`43a71098     nt!AlpcpWaitForSingleObject+0x3e
+        ffff9907`e2a6f820 fffff804`43ad093d     nt!AlpcpCompleteDeferSignalRequestAndWait+0x3c
+        ffff9907`e2a6f860 fffff804`43acf999     nt!AlpcpReceiveMessagePort+0x3ad
+        ffff9907`e2a6f8f0 fffff804`43acf4de     nt!AlpcpReceiveMessage+0x339
+        ffff9907`e2a6f9d0 fffff804`43806bb5     nt!NtAlpcSendWaitReceivePort+0xfe
+        ffff9907`e2a6fa90 00007ffa`e37acf14     nt!KiSystemServiceCopyEnd+0x25 (TrapFrame @ ffff9907`e2a6fb00)
+        000000e7`9a78f2c8 00000000`00000000     0x00007ffa`e37acf14
+
+        THREAD ffffaf04f1abf480  Cid 0194.01c0  Teb: 000000e79a91e000 Win32Thread: ffffaf04f2d96060 WAIT: (WrLpcReply) UserMode Non-Alertable
+            ffffaf04f1abf908  Semaphore Limit 0x1
+        Waiting for reply to ALPC Message ffff87082a996c70 : queued at port ffffaf04f22dadf0 : owned by process ffffaf04f22e5080
+        Not impersonating
+        DeviceMap                 ffff87082a247240
+        Owning Process            ffffaf04f1231140       Image:         csrss.exe
+        Attached Process          N/A            Image:         N/A
+        Wait Start TickCount      933            Ticks: 121147 (0:00:31:32.921)
+        Context Switch Count      6              IdealProcessor: 1             
+        UserTime                  00:00:00.000
+        KernelTime                00:00:00.000
+        Win32 Start Address 0x00007ffae0dcbec0
+        Stack Init ffff9907e2a92c90 Current ffff9907e2a923f0
+        Base ffff9907e2a93000 Limit ffff9907e2a8d000 Call 0000000000000000
+        Priority 15 BasePriority 15 PriorityDecrement 0 IoPriority 2 PagePriority 5
+        Kernel stack not resident.
+
+        THREAD ffffaf04f1b1d080  Cid 0194.01c8  Teb: 000000e79a922000 Win32Thread: 0000000000000000 WAIT: (UserRequest) UserMode Alertable
+            ffffaf04efd3e4e0  SynchronizationEvent
+            ffffaf04efd3ede0  SynchronizationEvent
+            ffffaf04efd3e460  SynchronizationEvent
+        Not impersonating
+        DeviceMap                 ffff87082a247240
+        Owning Process            ffffaf04f1231140       Image:         csrss.exe
+        Attached Process          N/A            Image:         N/A
+        Wait Start TickCount      450            Ticks: 121718 (0:00:31:41.843)
+        Context Switch Count      3              IdealProcessor: 1             
+        UserTime                  00:00:00.000
+        KernelTime                00:00:00.000
+        Win32 Start Address 0x00007ffae0dc2bc0
+        Stack Init ffff9907e2aa0c90 Current ffff9907e2a9ff20
+        Base ffff9907e2aa1000 Limit ffff9907e2a9b000 Call 0000000000000000
+        Priority 3 BasePriority 13 PriorityDecrement 0 IoPriority 2 PagePriority 5
+        Kernel stack not resident.
+
+        THREAD ffffaf04f1b1e080  Cid 0194.01cc  Teb: 000000e79a924000 Win32Thread: 0000000000000000 WAIT: (UserRequest) UserMode Alertable
+            ffffaf04efd3ece0  SynchronizationEvent
+        Not impersonating
+        DeviceMap                 ffff87082a247240
+        Owning Process            ffffaf04f1231140       Image:         csrss.exe
+        Attached Process          N/A            Image:         N/A
+        Wait Start TickCount      450            Ticks: 121803 (0:00:31:43.171)
+        Context Switch Count      2              IdealProcessor: 0             
+        UserTime                  00:00:00.000
+        KernelTime                00:00:00.000
+        Win32 Start Address 0x00007ffae0dc3060
+        Stack Init ffff9907e2aa7c90 Current ffff9907e2aa76a0
+        Base ffff9907e2aa8000 Limit ffff9907e2aa2000 Call 0000000000000000
+        Priority 15 BasePriority 13 PriorityDecrement 0 IoPriority 2 PagePriority 5
+        Kernel stack not resident.
+
+        THREAD ffffaf04f1b1f080  Cid 0194.01d0  Teb: 000000e79a926000 Win32Thread: 0000000000000000 WAIT: (WrLpcReceive) UserMode Non-Alertable
+            ffffaf04f1b1f508  Semaphore Limit 0x1
+        Not impersonating
+        DeviceMap                 ffff87082a247240
+        Owning Process            ffffaf04f1231140       Image:         csrss.exe
+        Attached Process          N/A            Image:         N/A
+        Wait Start TickCount      451            Ticks: 121887 (0:00:31:44.484)
+        Context Switch Count      3              IdealProcessor: 1             
+        UserTime                  00:00:00.000
+        KernelTime                00:00:00.000
+        Win32 Start Address 0x00007ffae0e37130
+        Stack Init ffff9907e2aaec90 Current ffff9907e2aae450
+        Base ffff9907e2aaf000 Limit ffff9907e2aa9000 Call 0000000000000000
+        Priority 14 BasePriority 13 PriorityDecrement 0 IoPriority 2 PagePriority 5
+        Kernel stack not resident.
+
+        THREAD ffffaf04f1b7f0c0  Cid 0194.020c  Teb: 000000e79a928000 Win32Thread: ffffaf04f1bc0110 WAIT: (WrLpcReceive) UserMode Non-Alertable
+            ffffaf04f1b7f548  Semaphore Limit 0x1
+        Not impersonating
+        DeviceMap                 ffff87082a247240
+        Owning Process            ffffaf04f1231140       Image:         csrss.exe
+        Attached Process          N/A            Image:         N/A
+        Wait Start TickCount      122249         Ticks: 175 (0:00:00:02.734)
+        Context Switch Count      1583           IdealProcessor: 0             
+        UserTime                  00:00:00.062
+        KernelTime                00:00:00.046
+        Win32 Start Address 0x00007ffae0e35fc0
+        Stack Init ffff9907e2af4c90 Current ffff9907e2af4420
+        Base ffff9907e2af5000 Limit ffff9907e2aef000 Call 0000000000000000
+        Priority 14 BasePriority 13 PriorityDecrement 0 IoPriority 2 PagePriority 5
+        Child-SP          RetAddr               Call Site
+        ffff9907`e2af4460 fffff804`436dfe60     nt!KiSwapContext+0x76
+        ffff9907`e2af45a0 fffff804`436df38f     nt!KiSwapThread+0x500
+        ffff9907`e2af4650 fffff804`436dec33     nt!KiCommitThreadWait+0x14f
+        ffff9907`e2af46f0 fffff804`4368f752     nt!KeWaitForSingleObject+0x233
+        ffff9907`e2af47e0 fffff804`43a71098     nt!AlpcpWaitForSingleObject+0x3e
+        ffff9907`e2af4820 fffff804`43ad093d     nt!AlpcpCompleteDeferSignalRequestAndWait+0x3c
+        ffff9907`e2af4860 fffff804`43acf999     nt!AlpcpReceiveMessagePort+0x3ad
+        ffff9907`e2af48f0 fffff804`43acf4de     nt!AlpcpReceiveMessage+0x339
+        ffff9907`e2af49d0 fffff804`43806bb5     nt!NtAlpcSendWaitReceivePort+0xfe
+        ffff9907`e2af4a90 00007ffa`e37acf14     nt!KiSystemServiceCopyEnd+0x25 (TrapFrame @ ffff9907`e2af4b00)
+        000000e7`9a6cf228 00000000`00000000     0x00007ffa`e37acf14
+
+        THREAD ffffaf04f1b88080  Cid 0194.0218  Teb: 000000e79a92a000 Win32Thread: ffffaf04f12fe0f0 WAIT: (WrUserRequest) KernelMode Non-Alertable
+            ffffaf04f1afba80  QueueObject
+            ffffaf04f12fe1e0  NotificationTimer
+            ffffaf04f12fe230  SynchronizationTimer
+            ffffaf04efce8a40  SynchronizationEvent
+            fffff804440244a0  NotificationEvent
+            ffffaf04efd458e0  SynchronizationEvent
+            ffffaf04efd459e0  SynchronizationEvent
+            ffffaf04edcbaac0  SynchronizationTimer
+            ffffaf04efd45de0  SynchronizationEvent
+            ffffaf04efd45ce0  SynchronizationEvent
+            ffffaf04efd45f60  SynchronizationEvent
+            ffffaf04efd456e0  SynchronizationEvent
+            ffffaf04efd45ee0  SynchronizationEvent
+            ffffaf04efdcaac0  SynchronizationTimer
+            ffffaf04efdcb180  SynchronizationTimer
+            ffffaf04efdcbba0  SynchronizationTimer
+            ffffaf04efdcbd50  SynchronizationTimer
+            ffffaf04efdca400  SynchronizationTimer
+            ffffaf04edcbb690  SynchronizationTimer
+            ffffaf04efd454e0  SynchronizationEvent
+            ffffaf04efd45860  SynchronizationEvent
+            ffffaf04efd46060  SynchronizationEvent
+            ffffaf04efd45560  SynchronizationEvent
+            ffffaf04efd455e0  SynchronizationEvent
+            ffffaf04efd46160  SynchronizationEvent
+        Not impersonating
+        DeviceMap                 ffff87082a247240
+        Owning Process            ffffaf04f1231140       Image:         csrss.exe
+        Attached Process          N/A            Image:         N/A
+        Wait Start TickCount      120416         Ticks: 2103 (0:00:00:32.859)
+        Context Switch Count      158            IdealProcessor: 1             
+        UserTime                  00:00:00.000
+        KernelTime                00:00:00.000
+        Win32 Start Address 0x00007ffae0dc3740
+        Stack Init ffff9907e2b09c90 Current ffff9907e2b092a0
+        Base ffff9907e2b0a000 Limit ffff9907e2b04000 Call 0000000000000000
+        Priority 16 BasePriority 16 PriorityDecrement 0 IoPriority 2 PagePriority 5
+        Child-SP          RetAddr               Call Site
+        ffff9907`e2b092e0 fffff804`436dfe60     nt!KiSwapContext+0x76
+        ffff9907`e2b09420 fffff804`436df38f     nt!KiSwapThread+0x500
+        ffff9907`e2b094d0 fffff804`436be4ce     nt!KiCommitThreadWait+0x14f
+        ffff9907`e2b09570 fffff4d4`5740fe93     nt!KeWaitForMultipleObjects+0x2be
+        ffff9907`e2b09680 ffffaf04`f1b88080     0xfffff4d4`5740fe93
+        ffff9907`e2b09688 fffff4d4`5765b6e0     0xffffaf04`f1b88080
+        ffff9907`e2b09690 fffff4d4`5765b6e0     0xfffff4d4`5765b6e0
+        ffff9907`e2b09698 ffffaf04`f1b88080     0xfffff4d4`5765b6e0
+        ffff9907`e2b096a0 00000000`00000000     0xffffaf04`f1b88080
+
+        THREAD ffffaf04f1b89080  Cid 0194.021c  Teb: 000000e79a92c000 Win32Thread: ffffaf04f12fda10 WAIT: (WrUserRequest) UserMode Non-Alertable
+            ffffaf04efce8680  SynchronizationEvent
+            ffffaf04efce8800  SynchronizationEvent
+            ffffaf04efce9c10  SynchronizationEvent
+            ffffaf04efce85f0  SynchronizationEvent
+            ffffaf04f1afc180  QueueObject
+            ffffaf04efd45060  SynchronizationEvent
+            ffffaf04efd44560  SynchronizationEvent
+            ffffaf04efdca910  SynchronizationTimer
+            ffffaf04efdcb9f0  SynchronizationTimer
+            ffffaf04efd44ee0  SynchronizationEvent
+            ffffaf04efd44f60  SynchronizationEvent
+            ffffaf04efd45a60  SynchronizationEvent
+            ffffaf04efd45ae0  SynchronizationEvent
+        Not impersonating
+        DeviceMap                 ffff87082a247240
+        Owning Process            ffffaf04f1231140       Image:         csrss.exe
+        Attached Process          N/A            Image:         N/A
+        Wait Start TickCount      84622          Ticks: 37986 (0:00:09:53.531)
+        Context Switch Count      92             IdealProcessor: 0             
+        UserTime                  00:00:00.000
+        KernelTime                00:00:00.000
+        Win32 Start Address 0x00007ffae0dc3740
+        Stack Init ffff9907e2b10c90 Current ffff9907e2b10300
+        Base ffff9907e2b11000 Limit ffff9907e2b0b000 Call 0000000000000000
+        Priority 16 BasePriority 16 PriorityDecrement 0 IoPriority 2 PagePriority 5
+        Kernel stack not resident.
+
+        THREAD ffffaf04f2258080  Cid 0194.0358  Teb: 000000e79a92e000 Win32Thread: ffffaf04f1bc3a90 WAIT: (WrUserRequest) UserMode Non-Alertable
+            ffffaf04f2252480  QueueObject
+        Not impersonating
+        DeviceMap                 ffff87082a247240
+        Owning Process            ffffaf04f1231140       Image:         csrss.exe
+        Attached Process          N/A            Image:         N/A
+        Wait Start TickCount      768            Ticks: 121925 (0:00:31:45.078)
+        Context Switch Count      4              IdealProcessor: 1             
+        UserTime                  00:00:00.000
+        KernelTime                00:00:00.000
+        Win32 Start Address 0x00007ffae0dc3740
+        Stack Init ffff9907e2caec90 Current ffff9907e2cae210
+        Base ffff9907e2caf000 Limit ffff9907e2ca9000 Call 0000000000000000
+        Priority 14 BasePriority 12 PriorityDecrement 0 IoPriority 2 PagePriority 5
+        Kernel stack not resident.
+
+        THREAD ffffaf04edd88080  Cid 0194.07f8  Teb: 000000e79a932000 Win32Thread: ffffaf04f26b8cf0 WAIT: (WrLpcReceive) UserMode Non-Alertable
+            ffffaf04edd88508  Semaphore Limit 0x1
+        Not impersonating
+        DeviceMap                 ffff87082a247240
+        Owning Process            ffffaf04f1231140       Image:         csrss.exe
+        Attached Process          N/A            Image:         N/A
+        Wait Start TickCount      122590         Ticks: 185 (0:00:00:02.890)
+        Context Switch Count      1462           IdealProcessor: 1             
+        UserTime                  00:00:00.000
+        KernelTime                00:00:00.062
+        Win32 Start Address 0x00007ffae0e35fc0
+        Stack Init ffff9907e3299c90 Current ffff9907e3299420
+        Base ffff9907e329a000 Limit ffff9907e3294000 Call 0000000000000000
+        Priority 14 BasePriority 13 PriorityDecrement 0 IoPriority 2 PagePriority 5
+        Child-SP          RetAddr               Call Site
+        ffff9907`e3299460 fffff804`436dfe60     nt!KiSwapContext+0x76
+        ffff9907`e32995a0 fffff804`436df38f     nt!KiSwapThread+0x500
+        ffff9907`e3299650 fffff804`436dec33     nt!KiCommitThreadWait+0x14f
+        ffff9907`e32996f0 fffff804`4368f752     nt!KeWaitForSingleObject+0x233
+        ffff9907`e32997e0 fffff804`43a71098     nt!AlpcpWaitForSingleObject+0x3e
+        ffff9907`e3299820 fffff804`43ad093d     nt!AlpcpCompleteDeferSignalRequestAndWait+0x3c
+        ffff9907`e3299860 fffff804`43acf999     nt!AlpcpReceiveMessagePort+0x3ad
+        ffff9907`e32998f0 fffff804`43acf4de     nt!AlpcpReceiveMessage+0x339
+        ffff9907`e32999d0 fffff804`43806bb5     nt!NtAlpcSendWaitReceivePort+0xfe
+        ffff9907`e3299a90 00007ffa`e37acf14     nt!KiSystemServiceCopyEnd+0x25 (TrapFrame @ ffff9907`e3299b00)
+        000000e7`9abff338 00000000`00000000     0x00007ffa`e37acf14
+
+lkd> .process /p ffffaf04f1231140
+Implicit process is now ffffaf04`f1231140
+
+lkd> !peb e79a915000
+PEB at 000000e79a915000
+    InheritedAddressSpace:    No
+    ReadImageFileExecOptions: No
+    BeingDebugged:            No
+    ImageBaseAddress:         00007ff686fa0000
+    NtGlobalFlag:             0
+    NtGlobalFlag2:            0
+    Ldr                       00007ffae387b4c0
+    Ldr.Initialized:          Yes
+    Ldr.InInitializationOrderModuleList: 0000021844203820 . 0000021844215840
+    Ldr.InLoadOrderModuleList:           0000021844203990 . 0000021844215820
+    Ldr.InMemoryOrderModuleList:         00000218442039a0 . 0000021844215830
+                    Base TimeStamp                     Module
+            7ff686fa0000 029fc410 May 25 14:07:28 1971 C:\Windows\system32\csrss.exe
+            7ffae3710000 e5d7ed5c Mar 12 04:11:08 2092 C:\Windows\SYSTEM32\ntdll.dll
+            7ffae0e30000 fee04a7e Jul 04 01:53:18 2105 C:\Windows\SYSTEM32\CSRSRV.dll
+            7ffae0e10000 5866f3fd Dec 30 23:55:41 2016 C:\Windows\system32\basesrv.DLL
+            7ffae0df0000 dc187f05 Jan 05 08:15:01 2087 C:\Windows\system32\winsrv.DLL
+            7ffae0fb0000 1183946c Apr 24 22:04:44 1979 C:\Windows\System32\kernelbase.dll
+            7ffae1cb0000 2f7cc9b6 Apr 01 04:34:14 1995 C:\Windows\System32\kernel32.dll
+            7ffae0dc0000 54f57480 Mar 03 08:44:48 2015 C:\Windows\SYSTEM32\winsrvext.dll
+            7ffae2050000 b661eb02 Dec 18 04:01:06 2066 C:\Windows\System32\USER32.dll
+            7ffae1330000 0dcd0213 May 03 21:26:59 1977 C:\Windows\System32\win32u.dll
+            7ffae3140000 403d941e Feb 26 06:37:18 2004 C:\Windows\System32\GDI32.dll
+            7ffae15e0000 97342902 May 21 21:33:06 2050 C:\Windows\System32\gdi32full.dll
+            7ffae1490000 39255ccf May 19 16:25:03 2000 C:\Windows\System32\msvcp_win.dll
+            7ffae1390000 43cbc11d Jan 16 15:51:57 2006 C:\Windows\System32\ucrtbase.dll
+            7ffae3370000 654b189d Nov 08 05:11:57 2023 C:\Windows\System32\combase.dll
+            7ffae1790000 76243d9a Oct 22 20:35:54 2032 C:\Windows\System32\RPCRT4.dll
+            7ffae12e0000 44bdc47e Jul 19 06:34:54 2006 C:\Windows\System32\cfgmgr32.dll
+            7ffae0db0000 8248b610 Apr 07 16:34:40 2039 C:\Windows\system32\sxssrv.DLL
+            7ffae0be0000 47f5dcb7 Apr 04 08:45:59 2008 C:\Windows\system32\sxs.dll
+            7ffae16f0000 0b64b4c2 Jan 22 09:00:50 1976 C:\Windows\System32\bcryptPrimitives.dll
+    SubSystemData:     0000000000000000
+    ProcessHeap:       0000021844050000
+    ProcessParameters: 0000021844202e60
+    CurrentDirectory:  'C:\Windows\system32\'
+    WindowTitle:  '< Name not readable >'
+    ImageFile:    'C:\Windows\system32\csrss.exe'
+    CommandLine:  '%SystemRoot%\system32\csrss.exe ObjectDirectory=\Windows SharedSection=1024,20480,768 Windows=On SubSystemType=Windows ServerDll=basesrv,1 ServerDll=winsrv:UserServerDllInitialization,3 ServerDll=sxssrv,4 ProfileControl=Off MaxRequestThreads=16'
+    DllPath:      '< Name not readable >'
+    Environment:  00000218442027f0
+        ComSpec=C:\Windows\system32\cmd.exe
+        DriverData=C:\Windows\System32\Drivers\DriverData
+        NUMBER_OF_PROCESSORS=2
+        OS=Windows_NT
+        Path=C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd
+        PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+        PROCESSOR_ARCHITECTURE=AMD64
+        PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
+        PROCESSOR_LEVEL=6
+        PROCESSOR_REVISION=8e0c
+        PSModulePath=%ProgramFiles%\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+        SystemDrive=C:
+        SystemRoot=C:\Windows
+        TEMP=C:\Windows\TEMP
+        TMP=C:\Windows\TEMP
+        USERNAME=SYSTEM
+        windir=C:\Windows
+        _NT_SYMBOL_PATH=SRV*C:\Users\slaeryan\Desktop\Tools\Symbols*http://msdl.microsoft.com/download/symbols
+
+lkd> .reload /user
+Loading User Symbols
+....................
+
+lkd> !pcr 
+KPCR for Processor 0 at fffff8043ff60000:
+    Major 1 Minor 1
+	NtTib.ExceptionList: fffff80447c62fb0
+	    NtTib.StackBase: fffff80447c61000
+	   NtTib.StackLimit: 0000006b84ffa3e8
+	 NtTib.SubSystemTib: fffff8043ff60000
+	      NtTib.Version: 000000003ff60180
+	  NtTib.UserPointer: fffff8043ff60870
+	      NtTib.SelfTib: 0000006b84ddc000
+
+	            SelfPcr: 0000000000000000
+	               Prcb: fffff8043ff60180
+	               Irql: 0000000000000000
+	                IRR: 0000000000000000
+	                IDR: 0000000000000000
+	      InterruptMode: 0000000000000000
+	                IDT: 0000000000000000
+	                GDT: 0000000000000000
+	                TSS: 0000000000000000
+
+	      CurrentThread: ffffaf04f3297080
+	         NextThread: 0000000000000000
+	         IdleThread: fffff80444127600
+
+	          DpcQueue: Unable to read nt!_KDPC_DATA.DpcListHead.Flink @ fffff8043ff63240
+
+lkd> !vm
+Page File: \??\C:\pagefile.sys
+  Current:    720896 Kb  Free Space:    720888 Kb
+  Minimum:    720896 Kb  Maximum:     12582912 Kb
+Page File: \??\C:\swapfile.sys
+  Current:     16384 Kb  Free Space:     16376 Kb
+  Minimum:     16384 Kb  Maximum:      6289896 Kb
+No Name for Paging File
+  Current:  16776176 Kb  Free Space:  16776168 Kb
+  Minimum:  16776176 Kb  Maximum:     16776176 Kb
+
+Physical Memory:          1048316 (    4193264 Kb)
+Available Pages:           652323 (    2609292 Kb)
+ResAvail Pages:            940418 (    3761672 Kb)
+Locked IO Pages:                0 (          0 Kb)
+Free System PTEs:      4294978055 (17179912220 Kb)
+
+******* 278400 kernel stack PTE allocations have failed ******
+
+
+******* 1141172800 kernel stack growth attempts have failed ******
+
+Modified Pages:              8837 (      35348 Kb)
+Modified PF Pages:           8754 (      35016 Kb)
+Modified No Write Pages:        0 (          0 Kb)
+NonPagedPool Usage:           235 (        940 Kb)
+NonPagedPoolNx Usage:       17275 (      69100 Kb)
+NonPagedPool Max:      4294967296 (17179869184 Kb)
+PagedPool Usage:            31559 (     126236 Kb)
+PagedPool Maximum:     4294967296 (17179869184 Kb)
+Processor Commit:             266 (       1064 Kb)
+Session Commit:              3694 (      14776 Kb)
+Shared Commit:              27887 (     111548 Kb)
+Special Pool:                   0 (          0 Kb)
+Kernel Stacks:               5484 (      21936 Kb)
+Pages For MDLs:              2369 (       9476 Kb)
+ContigMem Pages:                0 (          0 Kb)
+Pages For AWE:                  0 (          0 Kb)
+NonPagedPool Commit:        18396 (      73584 Kb)
+PagedPool Commit:           31559 (     126236 Kb)
+Driver Commit:              11681 (      46724 Kb)
+Boot Commit:                 4724 (      18896 Kb)
+PFN Array Commit:           12833 (      51332 Kb)
+SmallNonPagedPtesCommit:      132 (        528 Kb)
+SlabAllocatorPages:          4608 (      18432 Kb)
+System PageTables:            716 (       2864 Kb)
+ProcessLockedFilePages:         0 (          0 Kb)
+Pagefile Hash Pages:            0 (          0 Kb)
+Sum System Commit:         124349 (     497396 Kb)
+Total Private:             233223 (     932892 Kb)
+
+********** Sum of individual system commit + Process commit exceeds overall commit by 11004 Kb ? ********
+Committed pages:           354821 (    1419284 Kb)
+Commit limit:             1228540 (    4914160 Kb)
+
+  Pid ImageName                        Commit   SharedCommit        Debt
+
+ 1264 SearchApp.exe                 123756 Kb       18228 Kb        0 Kb
+ 1218 DbgX.Shell.exe                119968 Kb       10356 Kb        0 Kb
+  e68 explorer.exe                   95248 Kb        5908 Kb        0 Kb
+   3c dwm.exe                        67128 Kb       36332 Kb        0 Kb
+ 1748 EngHost.exe                    37092 Kb        2380 Kb        0 Kb
+ 1434 SearchIndexer.exe              28600 Kb        2948 Kb        0 Kb
+  574 plugin_host.exe                28300 Kb        2592 Kb        0 Kb
+ 112c StartMenuExperienceHost.       23216 Kb        5784 Kb        0 Kb
+ 13b4 ShellExperienceHost.exe        18364 Kb        8832 Kb        0 Kb
+ 14e4 sublime_text.exe               17024 Kb       10352 Kb        0 Kb
+ 1340 RuntimeBroker.exe              14364 Kb        4052 Kb        0 Kb
+ 1418 LockApp.exe                    14152 Kb        3304 Kb        0 Kb
+  488 svchost.exe                    13344 Kb        1952 Kb        0 Kb
+ 1660 TextInputHost.exe              13116 Kb        2992 Kb        0 Kb
+  a14 svchost.exe                    12440 Kb        1964 Kb        0 Kb
+  f80 WmiPrvSE.exe                   10696 Kb        2288 Kb        0 Kb
+ 17b4 vmtoolsd.exe                    9264 Kb        3648 Kb        0 Kb
+   5c Registry                        8440 Kb           0 Kb        0 Kb
+  8a4 svchost.exe                     8268 Kb        1956 Kb        0 Kb
+  340 svchost.exe                     8260 Kb        2368 Kb        0 Kb
+  a44 svchost.exe                     7008 Kb        1988 Kb        0 Kb
+  980 svchost.exe                     6940 Kb        2676 Kb        0 Kb
+  370 svchost.exe                     6072 Kb        1956 Kb        0 Kb
+  444 svchost.exe                     5968 Kb        2960 Kb        0 Kb
+  b44 vmtoolsd.exe                    5840 Kb        2020 Kb        0 Kb
+  cd0 ctfmon.exe                      5796 Kb        3420 Kb        0 Kb
+  924 sihost.exe                      5712 Kb        2664 Kb        0 Kb
+  46c svchost.exe                     5700 Kb        1984 Kb        0 Kb
+  a0c taskhostw.exe                   5528 Kb        3752 Kb        0 Kb
+  42c svchost.exe                     5504 Kb        1984 Kb        0 Kb
+  87c spoolsv.exe                     5248 Kb        1988 Kb        0 Kb
+  a84 svchost.exe                     5232 Kb        2276 Kb        0 Kb
+  270 lsass.exe                       5152 Kb        2312 Kb        0 Kb
+  940 svchost.exe                     5104 Kb        2672 Kb        0 Kb
+  15c ApplicationFrameHost.exe        4808 Kb        3764 Kb        0 Kb
+ 14fc RuntimeBroker.exe               4768 Kb        3720 Kb        0 Kb
+  250 services.exe                    4404 Kb         372 Kb        0 Kb
+  f34 svchost.exe                     4172 Kb        1984 Kb        0 Kb
+  ddc svchost.exe                     3912 Kb        2244 Kb        0 Kb
+  2e0 svchost.exe                     3872 Kb        2672 Kb        0 Kb
+  dec dllhost.exe                     3804 Kb        1980 Kb        0 Kb
+ 1228 SgrmBroker.exe                  3800 Kb         352 Kb        0 Kb
+ 170c RuntimeBroker.exe               3764 Kb        2856 Kb        0 Kb
+ 1468 RuntimeBroker.exe               3704 Kb        2704 Kb        0 Kb
+  4d8 dllhost.exe                     3588 Kb        2512 Kb        0 Kb
+  608 svchost.exe                     3572 Kb        1952 Kb        0 Kb
+  47c svchost.exe                     3452 Kb        2284 Kb        0 Kb
+  240 winlogon.exe                    3316 Kb        6060 Kb        0 Kb
+  304 fontdrvhost.exe                 3304 Kb         368 Kb        0 Kb
+  b78 VGAuthService.exe               3092 Kb        1996 Kb        0 Kb
+  9f4 svchost.exe                     3052 Kb        2084 Kb        0 Kb
+  7a4 dllhost.exe                     3024 Kb        2476 Kb        0 Kb
+  a00 svchost.exe                     3008 Kb        2268 Kb        0 Kb
+ 11ac MusNotifyIcon.exe               3004 Kb        3416 Kb        0 Kb
+ 162c svchost.exe                     2920 Kb        1956 Kb        0 Kb
+  76c svchost.exe                     2888 Kb        1960 Kb        0 Kb
+  508 svchost.exe                     2860 Kb        1952 Kb        0 Kb
+ 1014 msdtc.exe                       2808 Kb        1960 Kb        0 Kb
+ 11e8 RuntimeBroker.exe               2768 Kb        2680 Kb        0 Kb
+  228 svchost.exe                     2768 Kb        1996 Kb        0 Kb
+  af4 svchost.exe                     2740 Kb        1984 Kb        0 Kb
+  1f8 svchost.exe                     2740 Kb        2668 Kb        0 Kb
+  65c svchost.exe                     2732 Kb        1956 Kb        0 Kb
+  bd8 svchost.exe                     2664 Kb        1984 Kb        0 Kb
+ 11a4 svchost.exe                     2624 Kb        2272 Kb        0 Kb
+  95c SearchProtocolHost.exe          2472 Kb        2124 Kb        0 Kb
+  4e8 svchost.exe                     2424 Kb        2268 Kb        0 Kb
+  66c svchost.exe                     2396 Kb        1988 Kb        0 Kb
+  abc svchost.exe                     2368 Kb        1984 Kb        0 Kb
+  1ec csrss.exe                       2340 Kb       28264 Kb        0 Kb
+ 152c svchost.exe                     2320 Kb        1956 Kb        0 Kb
+  7f0 svchost.exe                     2272 Kb        1952 Kb        0 Kb
+  6f0 svchost.exe                     2268 Kb        1956 Kb        0 Kb
+  568 svchost.exe                     2248 Kb        1964 Kb        0 Kb
+  3b0 svchost.exe                     2232 Kb        1984 Kb        0 Kb
+  7fc svchost.exe                     2124 Kb        1956 Kb        0 Kb
+  7e0 svchost.exe                     2120 Kb        1984 Kb        0 Kb
+ 138c svchost.exe                     1992 Kb        1956 Kb        0 Kb
+  380 svchost.exe                     1984 Kb        1988 Kb        0 Kb
+  8f0 svchost.exe                     1976 Kb        1956 Kb        0 Kb
+  92c svchost.exe                     1920 Kb        1980 Kb        0 Kb
+  f20 svchost.exe                     1912 Kb        1956 Kb        0 Kb
+ 15f8 svchost.exe                     1860 Kb        1952 Kb        0 Kb
+  53c svchost.exe                     1824 Kb        1952 Kb        0 Kb
+  e7c UserOOBEBroker.exe              1780 Kb        2400 Kb        0 Kb
+ 1360 svchost.exe                     1756 Kb        1984 Kb        0 Kb
+  6f8 svchost.exe                     1752 Kb        2016 Kb        0 Kb
+  6ac svchost.exe                     1744 Kb        1988 Kb        0 Kb
+  6d4 svchost.exe                     1712 Kb        1984 Kb        0 Kb
+  974 svchost.exe                     1704 Kb        1984 Kb        0 Kb
+ 1738 SearchFilterHost.exe            1660 Kb        1972 Kb        0 Kb
+  3f8 svchost.exe                     1660 Kb        1960 Kb        0 Kb
+  194 csrss.exe                       1620 Kb        7172 Kb        0 Kb
+  8d0 svchost.exe                     1576 Kb        1956 Kb        0 Kb
+ 15c4 svchost.exe                     1536 Kb        1956 Kb        0 Kb
+ 179c vm3dservice.exe                 1472 Kb        3404 Kb        0 Kb
+  7e8 svchost.exe                     1452 Kb        1952 Kb        0 Kb
+  1dc wininit.exe                     1420 Kb        1932 Kb        0 Kb
+  450 svchost.exe                     1412 Kb        1952 Kb        0 Kb
+  58c svchost.exe                     1400 Kb        1956 Kb        0 Kb
+  5c4 vm3dservice.exe                 1360 Kb        1980 Kb        0 Kb
+ 16b8 svchost.exe                     1336 Kb        1980 Kb        0 Kb
+  2fc fontdrvhost.exe                 1276 Kb         368 Kb        0 Kb
+  bec svchost.exe                     1236 Kb        1960 Kb        0 Kb
+  acc svchost.exe                     1236 Kb        1980 Kb        0 Kb
+  654 svchost.exe                     1228 Kb        1980 Kb        0 Kb
+  128 smss.exe                        1048 Kb         264 Kb        0 Kb
+  2e8 svchost.exe                      804 Kb         364 Kb        0 Kb
+    4 System                           196 Kb         292 Kb        0 Kb
+ 177c EngHost.exe                       80 Kb           0 Kb        0 Kb
+ 16f4 EngHost.exe                       80 Kb           0 Kb        0 Kb
+ 1470 EngHost.exe                       80 Kb           0 Kb        0 Kb
+  e24 userinit.exe                      80 Kb           0 Kb        0 Kb
+  d3c EngHost.exe                       80 Kb           0 Kb        0 Kb
+  3fc LogonUI.exe                       80 Kb           0 Kb        0 Kb
+ 11fc EngHost.exe                       76 Kb           0 Kb        0 Kb
+  958 svchost.exe                       76 Kb           0 Kb        0 Kb
+  6c4 MemCompression                    56 Kb           0 Kb        0 Kb
+
+lkd> !running
+
+System Processors:  (0000000000000003)
+  Idle Processors:  (0000000000000002)
+
+       Prcbs             Current         (pri) Next            (pri) Idle
+  0    fffff8043ff60180  ffffaf04f3297080 (15)                       fffff80444127600  ................

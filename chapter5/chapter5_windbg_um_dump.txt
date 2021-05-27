@@ -338,6 +338,7 @@ ntdll!_TEB
    +0x1818 ReservedForWdf   : (null) 
    +0x1820 ReservedForCrt   : 0
    +0x1828 EffectiveContainerId : _GUID {00000000-0000-0000-0000-000000000000}
+   
 0:000> dx -r1 (*((ntdll!_NT_TIB *)0x99195e5000))
 (*((ntdll!_NT_TIB *)0x99195e5000))                 [Type: _NT_TIB]
     [+0x000] ExceptionList    : 0x0 [Type: _EXCEPTION_REGISTRATION_RECORD *]
