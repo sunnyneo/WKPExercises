@@ -76,8 +76,18 @@ NTSTATUS set_thread_priority(PTHREAD_DATA pThreadData) {
 	USHORT oldThreadPriority = 0;
 
 	// Get TID and requested thread priority
-	threadId = pThreadData->ThreadId;
-	newThreadPriority = pThreadData->Priority;
+	// Unsafe as we are accessing Ring 3 buffer via direct pointer
+	// It may be freed from another thread before we get a chance to access it and BSOD
+	__try {
+		threadId = pThreadData->ThreadId;
+		newThreadPriority = pThreadData->Priority;
+	}
+	// Handle exception
+	__except(EXCEPTION_EXECUTE_HANDLER) {
+		status = STATUS_ACCESS_VIOLATION;
+		PRINT("Error accessing UM buffer: %X\n", status);
+		return status;
+	}
 
 	// Check if requested priority value is valid
 	if (newThreadPriority < 1 || newThreadPriority > 31) {
