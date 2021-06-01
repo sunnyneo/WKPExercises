@@ -1,0 +1,138 @@
+lkd> !irql
+Debugger saved IRQL for processor 0x0 -- 0 (LOW_LEVEL)
+
+lkd> !irql 1
+Debugger saved IRQL for processor 0x1 -- 0 (LOW_LEVEL)
+
+lkd> !idt
+
+Dumping IDT: fffff8047c860000
+
+00:	fffff804797ffc00 nt!KiDivideErrorFault
+01:	fffff804797fff40 nt!KiDebugTrapOrFault	Stack = 0xFFFFF8047C89E000
+02:	fffff80479800440 nt!KiNmiInterrupt	Stack = 0xFFFFF8047C890000
+03:	fffff80479800900 nt!KiBreakpointTrap
+04:	fffff80479800c40 nt!KiOverflowTrap
+05:	fffff80479800f80 nt!KiBoundFault
+06:	fffff804798014c0 nt!KiInvalidOpcodeFault
+07:	fffff804798019c0 nt!KiNpxNotAvailableFault
+08:	fffff80479801cc0 nt!KiDoubleFaultAbort	Stack = 0xFFFFF8047C889000
+09:	fffff80479801fc0 nt!KiNpxSegmentOverrunAbort
+0a:	fffff804798022c0 nt!KiInvalidTssFault
+0b:	fffff804798025c0 nt!KiSegmentNotPresentFault
+0c:	fffff80479802980 nt!KiStackFault
+0d:	fffff80479802cc0 nt!KiGeneralProtectionFault
+0e:	fffff80479803000 nt!KiPageFault
+10:	fffff80479803640 nt!KiFloatingErrorFault
+11:	fffff80479803a00 nt!KiAlignmentFault
+12:	fffff80479803d40 nt!KiMcheckAbort	Stack = 0xFFFFF8047C897000
+13:	fffff80479804840 nt!KiXmmException
+14:	fffff80479804c00 nt!KiVirtualizationException
+15:	fffff80479805100 nt!KiControlProtectionFault
+1f:	fffff804797f9280 nt!KiApcInterrupt
+20:	fffff804797fae60 nt!KiSwInterrupt
+29:	fffff80479805600 nt!KiRaiseSecurityCheckFailure
+2c:	fffff80479805940 nt!KiRaiseAssertion
+2d:	fffff80479805c80 nt!KiDebugServiceTrap
+2f:	fffff804797fb420 nt!KiDpcInterrupt
+30:	fffff804797f9820 nt!KiHvInterrupt
+31:	fffff804797f9b00 nt!KiVmbusInterrupt0
+32:	fffff804797f9de0 nt!KiVmbusInterrupt1
+33:	fffff804797fa0c0 nt!KiVmbusInterrupt2
+34:	fffff804797fa3a0 nt!KiVmbusInterrupt3
+35:	fffff804797f7b78 nt!HalpInterruptCmciService (KINTERRUPT fffff8047a0f2fc0)
+
+36:	fffff804797f7b80 nt!HalpInterruptCmciService (KINTERRUPT fffff8047a0f3200)
+
+50:	fffff804797f7c50 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c1fa1c80)
+
+51:	fffff804797f7c58 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c1fa13c0)
+
+52:	fffff804797f7c60 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c290ea00)
+
+53:	fffff804797f7c68 storport!StorPortExtendedFunction+0x760 (KINTERRUPT ffffbe00c290e000)
+
+54:	fffff804797f7c70 ndis!ndisMiniportMessageIsr (KINTERRUPT ffffbe00c2f933c0)
+
+60:	fffff804797f7cd0 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c290e8c0)
+
+61:	fffff804797f7cd8 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c1fa1500)
+
+62:	fffff804797f7ce0 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c290eb40)
+
+63:	fffff804797f7ce8 storport!StorPortExtendedFunction+0x760 (KINTERRUPT ffffbe00c290e140)
+
+64:	fffff804797f7cf0 USBPORT!USBPORT_IsControllerInHibernatePath+0xf7b0 (KINTERRUPT ffffbe00c2f93c80)
+
+70:	fffff804797f7d50 i8042prt!I8042MouseInterruptService (KINTERRUPT ffffbe00c2f93b40)
+
+71:	fffff804797f7d58 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c1fa1640)
+
+72:	fffff804797f7d60 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c290ec80)
+
+73:	fffff804797f7d68 storport!StorPortExtendedFunction+0x760 (KINTERRUPT ffffbe00c290e280)
+
+74:	fffff804797f7d70 HDAudBus!HdaController::Isr (KINTERRUPT ffffbe00c2f938c0)
+
+80:	fffff804797f7dd0 i8042prt!I8042KeyboardInterruptService (KINTERRUPT ffffbe00c2f93dc0)
+
+81:	fffff804797f7dd8 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c1fa1780)
+
+82:	fffff804797f7de0 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c290edc0)
+
+83:	fffff804797f7de8 vmci!DllInitialize+0x1a10 (KINTERRUPT ffffbe00c290e640)
+
+84:	fffff804797f7df0 USBPORT!USBPORT_IsControllerInHibernatePath+0xf7b0 (KINTERRUPT ffffbe00c2f93a00)
+
+	                 dxgkrnl!DpiFdoLineInterruptRoutine (KINTERRUPT ffffbe00c2f93000)
+
+91:	fffff804797f7e58 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c1fa18c0)
+
+92:	fffff804797f7e60 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c1fa1000)
+
+93:	fffff804797f7e68 vmci!DllInitialize+0x1a10 (KINTERRUPT ffffbe00c290e780)
+
+94:	fffff804797f7e70 Wdf01000+0x3c30 (KINTERRUPT ffffbe00c2f93500)
+
+a1:	fffff804797f7ed8 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c1fa1a00)
+
+a2:	fffff804797f7ee0 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c1fa1140)
+
+a3:	fffff804797f7ee8 ataport!AtaPortCompleteRequest+0xc0 (KINTERRUPT ffffbe00c290e3c0)
+
+a4:	fffff804797f7ef0 Wdf01000+0x3c30 (KINTERRUPT ffffbe00c2f93640)
+
+a5:	fffff804797f7ef8 ndis!ndisMiniportMessageIsr (KINTERRUPT ffffbe00c2f93140)
+
+b0:	fffff804797f7f50 ACPI!ACPIInterruptServiceRoutine (KINTERRUPT ffffbe00c1fa1dc0)
+
+b1:	fffff804797f7f58 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c1fa1b40)
+
+b2:	fffff804797f7f60 pci!ExpressRootPortMessageRoutine (KINTERRUPT ffffbe00c1fa1280)
+
+b3:	fffff804797f7f68 ataport!AtaPortCompleteRequest+0xc0 (KINTERRUPT ffffbe00c290e500)
+
+b4:	fffff804797f7f70 Wdf01000+0x3c30 (KINTERRUPT ffffbe00c2f93780)
+
+b5:	fffff804797f7f78 ndis!ndisMiniportMessageIsr (KINTERRUPT ffffbe00c2f93280)
+
+ce:	fffff804797f8040 nt!HalpIommuInterruptRoutine (KINTERRUPT fffff8047a0f3c20)
+
+d1:	fffff804797f8058 nt!HalpTimerClockInterrupt (KINTERRUPT fffff8047a0f39e0)
+
+d2:	fffff804797f8060 nt!HalpTimerClockIpiRoutine (KINTERRUPT fffff8047a0f38c0)
+
+d7:	fffff804797f8088 nt!HalpInterruptRebootService (KINTERRUPT fffff8047a0f3680)
+
+d8:	fffff804797f8090 nt!HalpInterruptStubService (KINTERRUPT fffff8047a0f3440)
+
+df:	fffff804797f80c8 nt!HalpInterruptSpuriousService (KINTERRUPT fffff8047a0f3320)
+
+e1:	fffff804797fb910 nt!KiIpiInterrupt
+e2:	fffff804797f80e0 nt!HalpInterruptLocalErrorService (KINTERRUPT fffff8047a0f3560)
+
+e3:	fffff804797f80e8 nt!HalpInterruptDeferredRecoveryService (KINTERRUPT fffff8047a0f30e0)
+
+fd:	fffff804797f81b8 nt!HalpTimerProfileInterrupt (KINTERRUPT fffff8047a0f3b00)
+
+fe:	fffff804797f81c0 nt!HalpPerfInterrupt (KINTERRUPT fffff8047a0f37a0)

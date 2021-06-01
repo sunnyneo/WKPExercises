@@ -1,0 +1,445 @@
+Microsoft (R) Windows Debugger Version 10.0.21306.1007 AMD64
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+
+Loading Dump File [C:\Windows\MEMORY.DMP]
+Kernel Bitmap Dump File: Kernel address space is available, User address space may not be available.
+
+
+************* Path validation summary **************
+Response                         Time (ms)     Location
+Deferred                                       SRV*C:\Users\slaeryan\Desktop\Tools\Symbols*http://msdl.microsoft.com/download/symbols
+Symbol search path is: SRV*C:\Users\slaeryan\Desktop\Tools\Symbols*http://msdl.microsoft.com/download/symbols
+Executable search path is: 
+Windows 10 Kernel Version 19041 MP (2 procs) Free x64
+Product: WinNt, suite: TerminalServer SingleUserTS
+Edition build lab: 19041.1.amd64fre.vb_release.191206-1406
+Machine Name:
+Kernel base = 0xfffff804`79400000 PsLoadedModuleList = 0xfffff804`7a02a3b0
+Debug session time: Tue Jun  1 11:24:41.332 2021 (UTC + 1:00)
+System Uptime: 0 days 0:18:04.110
+Loading Kernel Symbols
+...............................................................
+.........Page 10002a not present in the dump file. Type ".hh dbgerr004" for details
+.......................................................
+................................................
+Loading User Symbols
+PEB is paged out (Peb.Ldr = 00000024`8c899018).  Type ".hh dbgerr001" for details
+Loading unloaded module list
+.......
+For analysis of this file, run !analyze -v
+nt!KeBugCheckEx:
+fffff804`797f5210 48894c2408      mov     qword ptr [rsp+8],rcx ss:0018:fffff402`b29f76a0=000000000000000a
+
+1: kd> .reload
+Loading Kernel Symbols
+...............................................................
+.........Page 10002a not present in the dump file. Type ".hh dbgerr004" for details
+.......................................................
+................................................
+Loading User Symbols
+PEB is paged out (Peb.Ldr = 00000024`8c899018).  Type ".hh dbgerr001" for details
+Loading unloaded module list
+.......
+
+1: kd> !analyze -v
+*******************************************************************************
+*                                                                             *
+*                        Bugcheck Analysis                                    *
+*                                                                             *
+*******************************************************************************
+
+DRIVER_IRQL_NOT_LESS_OR_EQUAL (d1)
+An attempt was made to access a pageable (or completely invalid) address at an
+interrupt request level (IRQL) that is too high.  This is usually
+caused by drivers using improper addresses.
+If kernel debugger is available get stack backtrace.
+Arguments:
+Arg1: ffffd20b9a356720, memory referenced
+Arg2: 0000000000000002, IRQL
+Arg3: 0000000000000000, value 0 = read operation, 1 = write operation
+Arg4: fffff8047f101981, address which referenced memory
+
+Debugging Details:
+------------------
+
+Unable to load image \??\C:\Windows\system32\drivers\myfault.sys, Win32 error 0n2
+
+KEY_VALUES_STRING: 1
+
+    Key  : Analysis.CPU.mSec
+    Value: 2843
+
+    Key  : Analysis.DebugAnalysisManager
+    Value: Create
+
+    Key  : Analysis.Elapsed.mSec
+    Value: 2921
+
+    Key  : Analysis.Init.CPU.mSec
+    Value: 1233
+
+    Key  : Analysis.Init.Elapsed.mSec
+    Value: 59472
+
+    Key  : Analysis.Memory.CommitPeak.Mb
+    Value: 71
+
+    Key  : WER.OS.Branch
+    Value: vb_release
+
+    Key  : WER.OS.Timestamp
+    Value: 2019-12-06T14:06:00Z
+
+    Key  : WER.OS.Version
+    Value: 10.0.19041.1
+
+
+VIRTUAL_MACHINE:  VMware
+
+BUGCHECK_CODE:  d1
+
+BUGCHECK_P1: ffffd20b9a356720
+
+BUGCHECK_P2: 2
+
+BUGCHECK_P3: 0
+
+BUGCHECK_P4: fffff8047f101981
+
+READ_ADDRESS:  ffffd20b9a356720 Paged pool
+
+BLACKBOXBSD: 1 (!blackboxbsd)
+
+
+BLACKBOXNTFS: 1 (!blackboxntfs)
+
+
+BLACKBOXPNP: 1 (!blackboxpnp)
+
+
+BLACKBOXWINLOGON: 1
+
+PROCESS_NAME:  notmyfault64.exe
+
+TRAP_FRAME:  fffff402b29f77e0 -- (.trap 0xfffff402b29f77e0)
+NOTE: The trap frame does not contain all registers.
+Some register values may be zeroed or incorrect.
+rax=0000000000000000 rbx=0000000000000000 rcx=ffffd20b90c00340
+rdx=0000000000000880 rsi=0000000000000000 rdi=0000000000000000
+rip=fffff8047f101981 rsp=fffff402b29f7970 rbp=0000000000000002
+ r8=ffffd20b9a3e2ff0  r9=0000000000000000 r10=ffffd20b90c002c0
+r11=ffffd20b9a353710 r12=0000000000000000 r13=0000000000000000
+r14=0000000000000000 r15=0000000000000000
+iopl=0         nv up ei ng nz na pe nc
+myfault+0x1981:
+fffff804`7f101981 8b03            mov     eax,dword ptr [rbx] ds:00000000`00000000=????????
+Resetting default scope
+
+STACK_TEXT:  
+fffff402`b29f7698 fffff804`79807169     : 00000000`0000000a ffffd20b`9a356720 00000000`00000002 00000000`00000000 : nt!KeBugCheckEx
+fffff402`b29f76a0 fffff804`79803469     : 00007ff9`882abc30 00000000`00000000 00000000`00000f4d 00000000`00000000 : nt!KiBugCheckDispatch+0x69
+fffff402`b29f77e0 fffff804`7f101981     : 00000000`00000000 fffff402`b29f79c8 00000000`00000000 00000000`00000000 : nt!KiPageFault+0x469
+fffff402`b29f7970 fffff804`7f101d3d     : 00000000`00000000 00000220`ef1386d0 00000000`000000f0 00000000`00000000 : myfault+0x1981
+fffff402`b29f79a0 fffff804`7f101ea1     : ffff9904`929d4ea0 00000000`00000000 00000000`00000000 fffff804`79aefe11 : myfault+0x1d3d
+fffff402`b29f7ae0 fffff804`796cd6c5     : ffff9904`929d4ea0 00000000`00000001 fffff402`b29f7ec0 00000000`00000001 : myfault+0x1ea1
+fffff402`b29f7b40 fffff804`79ac2528     : fffff402`b29f7ec0 ffff9904`929d4ea0 00000000`00000001 fffff804`00000000 : nt!IofCallDriver+0x55
+fffff402`b29f7b80 fffff804`79ac1df5     : 00000000`00000000 fffff402`b29f7ec0 00000000`00000000 fffff402`b29f7ec0 : nt!IopSynchronousServiceTail+0x1a8
+fffff402`b29f7c20 fffff804`79ac17f6     : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : nt!IopXxxControlFile+0x5e5
+fffff402`b29f7d60 fffff804`79806bb5     : 00000000`00000000 ffff5da2`4a103f3d 00000000`00080274 00000220`eea7f3d0 : nt!NtDeviceIoControlFile+0x56
+fffff402`b29f7dd0 00007ff9`882abe84     : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : nt!KiSystemServiceCopyEnd+0x25
+00000024`8cafec08 00000000`00000000     : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : 0x00007ff9`882abe84
+
+
+SYMBOL_NAME:  myfault+1981
+
+MODULE_NAME: myfault
+
+IMAGE_NAME:  myfault.sys
+
+STACK_COMMAND:  .thread ; .cxr ; kb
+
+BUCKET_ID_FUNC_OFFSET:  1981
+
+FAILURE_BUCKET_ID:  AV_myfault!unknown_function
+
+OS_VERSION:  10.0.19041.1
+
+BUILDLAB_STR:  vb_release
+
+OSPLATFORM_TYPE:  x64
+
+OSNAME:  Windows 10
+
+FAILURE_ID_HASH:  {9745090a-9bce-ccba-c096-ca6e9ca04c64}
+
+Followup:     MachineOwner
+---------
+
+1: kd> ~1s
+
+1: kd> !running -t
+
+System Processors:  (0000000000000003)
+  Idle Processors:  (0000000000000003)
+
+All processors idle.
+
+1: kd> !stacks 0 myfault
+Proc.Thread  .Thread  Ticks   ThreadState Blocker
+                            [fffff8047a124a00 Idle]
+                            [ffff99048d661040 System]
+
+                            [ffff99048d6c4080 Registry]
+
+                            [ffff99049073e040 smss.exe]
+
+                            [ffff990490b4c080 csrss.exe]
+
+                            [ffff9904913c5080 wininit.exe]
+
+                            [ffff990491360080 csrss.exe]
+
+                            [ffff990491a270c0 winlogon.exe]
+
+                            [ffff990491a4a180 services.exe]
+
+                            [ffff990491a4d080 lsass.exe]
+
+                            [ffff990491bb6240 fontdrvhost.ex]
+
+                            [ffff990491bb8240 fontdrvhost.ex]
+
+                            [ffff990491bb4080 svchost.exe]
+
+                            [ffff990491bd1340 svchost.exe]
+
+                            [ffff990491c3b0c0 svchost.exe]
+
+                            [ffff990491c650c0 svchost.exe]
+
+                            [ffff990491d40100 dwm.exe]
+
+                            [ffff990491dd30c0 svchost.exe]
+
+                            [ffff990491ded080 svchost.exe]
+
+                            [ffff990491df1080 svchost.exe]
+
+                            [ffff990491df2080 svchost.exe]
+
+                            [ffff990491e5d080 svchost.exe]
+
+                            [ffff990491e62080 svchost.exe]
+
+                            [ffff990491ec5080 svchost.exe]
+
+                            [ffff990491ec6080 svchost.exe]
+
+                            [ffff990491eda080 svchost.exe]
+
+                            [ffff990491f21080 svchost.exe]
+
+                            [ffff990491f930c0 svchost.exe]
+
+                            [ffff990491fa2080 svchost.exe]
+
+                            [ffff990491fdc0c0 svchost.exe]
+
+                            [ffff990491ff5080 svchost.exe]
+
+                            [ffff990491ffa080 svchost.exe]
+
+                            [ffff99049203b340 svchost.exe]
+
+                            [ffff99049203e040 MemCompression]
+
+                            [ffff9904920c9080 svchost.exe]
+
+                            [ffff99048d67f080 svchost.exe]
+
+                            [ffff99048d771080 svchost.exe]
+
+                            [ffff99048d76b080 svchost.exe]
+
+                            [ffff99048d73a080 svchost.exe]
+
+                            [ffff99048d738080 svchost.exe]
+
+                            [ffff99048d70d080 svchost.exe]
+
+                            [ffff9904920d1240 svchost.exe]
+
+                            [ffff990492242340 spoolsv.exe]
+
+                            [ffff990492258080 svchost.exe]
+
+                            [ffff99049225b080 svchost.exe]
+
+                            [ffff990491f94080 svchost.exe]
+
+                            [ffff990492374080 svchost.exe]
+
+                            [ffff9904925a60c0 svchost.exe]
+
+                            [ffff9904925a9080 svchost.exe]
+
+                            [ffff9904925ba080 svchost.exe]
+
+                            [ffff9904925c51c0 svchost.exe]
+
+                            [ffff9904925d7080 svchost.exe]
+
+                            [ffff9904925d90c0 VGAuthService.]
+
+                            [ffff9904925d6340 vm3dservice.ex]
+
+                            [ffff9904925dd080 vmtoolsd.exe]
+
+                            [ffff9904925de080 svchost.exe]
+
+                            [ffff990492688300 vm3dservice.ex]
+
+                            [ffff99049269e080 svchost.exe]
+
+                            [ffff9904926eb080 svchost.exe]
+
+                            [ffff9904926f0080 sihost.exe]
+
+                            [ffff99049270f080 svchost.exe]
+
+                            [ffff9904927850c0 svchost.exe]
+
+                            [ffff990492864080 taskhostw.exe]
+
+                            [ffff99049287e080 svchost.exe]
+
+                            [ffff990492948080 svchost.exe]
+
+                            [ffff990492982080 dllhost.exe]
+
+                            [ffff990492a020c0 ctfmon.exe]
+
+                            [ffff990492a1e080 WmiPrvSE.exe]
+
+                            [ffff990492ab5080 svchost.exe]
+
+                            [ffff990492b72080 userinit.exe]
+
+                            [ffff990492b960c0 explorer.exe]
+
+                            [ffff990492c130c0 svchost.exe]
+
+                            [ffff990492c58080 svchost.exe]
+
+                            [ffff990492d020c0 msdtc.exe]
+
+                            [ffff990492dcc240 StartMenuExper]
+
+                            [ffff9904930850c0 RuntimeBroker.]
+
+                            [ffff9904930cd0c0 SearchApp.exe]
+
+                            [ffff990493270080 RuntimeBroker.]
+
+                            [ffff99049333a080 ShellExperienc]
+
+                            [ffff990492fe9080 RuntimeBroker.]
+
+                            [ffff990492fdf080 SearchIndexer.]
+
+                            [ffff990493088080 RuntimeBroker.]
+
+                            [ffff99049340e200 vmtoolsd.exe]
+
+                            [ffff990491a04080 WmiPrvSE.exe]
+
+                            [ffff9904932ae080 svchost.exe]
+
+                            [ffff990493226080 svchost.exe]
+
+                            [ffff99049375b080 svchost.exe]
+
+                            [ffff99049326e080 svchost.exe]
+
+                            [ffff990493810080 EngHost.exe]
+
+                            [ffff990493749080 TextInputHost.]
+
+                            [ffff9904935f3080 ApplicationFra]
+
+                            [ffff990492dce080 svchost.exe]
+
+                            [ffff9904937a02c0 svchost.exe]
+
+                            [ffff990491d7b080 svchost.exe]
+
+                            [ffff9904934c70c0 SgrmBroker.exe]
+
+                            [ffff9904932660c0 svchost.exe]
+
+                            [ffff990493733080 svchost.exe]
+
+                            [ffff990492497080 dllhost.exe]
+
+                            [ffff9904937ce300 svchost.exe]
+
+                            [ffff9904931dc300 UserOOBEBroker]
+
+                            [ffff99049378a340 svchost.exe]
+
+                            [ffff9904922bb080 svchost.exe]
+
+                            [ffff990492aba080 svchost.exe]
+
+                            [ffff9904931df0c0 svchost.exe]
+
+                            [ffff99049330a080 svchost.exe]
+
+                            [ffff990493405080 TrustedInstall]
+
+                            [ffff9904937dc300 TiWorker.exe]
+
+                            [ffff99049378c080 svchost.exe]
+
+                            [ffff990493386080 smartscreen.ex]
+
+                            [ffff990492ccc080 svchost.exe]
+
+                            [ffff99049376d080 audiodg.exe]
+
+                            [ffff9904955c9080 notmyfault64.e]
+1630.001648  ffff99048d6e7080 0000001 RUNNING    nt!KeBugCheckEx
+
+
+Threads Processed: 968
+
+1: kd> !thread  ffff99048d6e7080
+THREAD ffff99048d6e7080  Cid 1630.1648  Teb: 000000248c89a000 Win32Thread: ffff990495003620 RUNNING on processor 1
+IRP List:
+    ffff9904929d4ea0: (0006,0118) Flags: 00060000  Mdl: 00000000
+Not impersonating
+DeviceMap                 ffffd20b94e727f0
+Owning Process            ffff9904955c9080       Image:         notmyfault64.exe
+Attached Process          N/A            Image:         N/A
+Wait Start TickCount      69382          Ticks: 1 (0:00:00:00.015)
+Context Switch Count      2597           IdealProcessor: 0             
+UserTime                  00:00:00.031
+KernelTime                00:00:00.421
+Win32 Start Address 0x00007ff66e445384
+Stack Init fffff402b29f7fd0 Current fffff402b248af50
+Base fffff402b29f8000 Limit fffff402b29f2000 Call 0000000000000000
+Priority 12 BasePriority 8 PriorityDecrement 2 IoPriority 2 PagePriority 5
+Child-SP          RetAddr               : Args to Child                                                           : Call Site
+fffff402`b29f7698 fffff804`79807169     : 00000000`0000000a ffffd20b`9a356720 00000000`00000002 00000000`00000000 : nt!KeBugCheckEx
+fffff402`b29f76a0 fffff804`79803469     : 00007ff9`882abc30 00000000`00000000 00000000`00000f4d 00000000`00000000 : nt!KiBugCheckDispatch+0x69
+fffff402`b29f77e0 fffff804`7f101981     : 00000000`00000000 fffff402`b29f79c8 00000000`00000000 00000000`00000000 : nt!KiPageFault+0x469 (TrapFrame @ fffff402`b29f77e0)
+fffff402`b29f7970 fffff804`7f101d3d     : 00000000`00000000 00000220`ef1386d0 00000000`000000f0 00000000`00000000 : myfault+0x1981
+fffff402`b29f79a0 fffff804`7f101ea1     : ffff9904`929d4ea0 00000000`00000000 00000000`00000000 fffff804`79aefe11 : myfault+0x1d3d
+fffff402`b29f7ae0 fffff804`796cd6c5     : ffff9904`929d4ea0 00000000`00000001 fffff402`b29f7ec0 00000000`00000001 : myfault+0x1ea1
+fffff402`b29f7b40 fffff804`79ac2528     : fffff402`b29f7ec0 ffff9904`929d4ea0 00000000`00000001 fffff804`00000000 : nt!IofCallDriver+0x55
+fffff402`b29f7b80 fffff804`79ac1df5     : 00000000`00000000 fffff402`b29f7ec0 00000000`00000000 fffff402`b29f7ec0 : nt!IopSynchronousServiceTail+0x1a8
+fffff402`b29f7c20 fffff804`79ac17f6     : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : nt!IopXxxControlFile+0x5e5
+fffff402`b29f7d60 fffff804`79806bb5     : 00000000`00000000 ffff5da2`4a103f3d 00000000`00080274 00000220`eea7f3d0 : nt!NtDeviceIoControlFile+0x56
+fffff402`b29f7dd0 00007ff9`882abe84     : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : nt!KiSystemServiceCopyEnd+0x25 (TrapFrame @ fffff402`b29f7e40)
+00000024`8cafec08 00000000`00000000     : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : 0x00007ff9`882abe84
