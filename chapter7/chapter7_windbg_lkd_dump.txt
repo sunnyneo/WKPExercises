@@ -1,0 +1,147 @@
+lkd> !irpfind
+
+Scanning large pool allocation table for tag 0x3f707249 (Irp?) (ffffe50107302000 : ffffe50107362000)
+
+  Irp            [ Thread ]         irpStack: (Mj,Mn)   DevObj          [Driver]         MDL Process
+ffffe50102ab6970 [0000000000000000] Irp is complete (CurrentLocation 7 > StackCount 6)
+ffffe50102bb09e0 [0000000000000000] Irp is complete (CurrentLocation 7 > StackCount 6)
+ffffe50102a11860 [0000000000000000] Irp is complete (CurrentLocation 7 > StackCount 6)
+ffffe50102bae400 [0000000000000000] Irp is complete (CurrentLocation 7 > StackCount 6)
+ffffe50102975070 [0000000000000000] Irp is complete (CurrentLocation 6 > StackCount 5)
+ffffe50102a0f0d0 [0000000000000000] Irp is complete (CurrentLocation 7 > StackCount 6)
+ffffe501051cf980 [0000000000000000] irpStack: ( f, 0)  ffffe501051d4da0 [ \Driver\USBXHCI]
+ffffe501029107c0 [0000000000000000] Irp is complete (CurrentLocation 7 > StackCount 6)
+ffffe501076dba20 [ffffe501076f1080] irpStack: ( c, 2)  ffffe50102f5e030 [ \FileSystem\Ntfs]
+ffffe50105f22a30 [0000000000000000] irpStack: (16, 0)  ffffe501052d9730 [ \Driver\USBHUB3]
+
+...terminating - searched big pool table to ffffe5010732a5d8
+
+lkd> !irp ffffe501076dba20
+Irp is active with 11 stacks 11 is current (= 0xffffe501076dbdc0)
+ No Mdl: No System Buffer: Thread ffffe501076f1080:  Irp stack trace.  
+     cmd  flg cl Device   File     Completion-Context
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+>[IRP_MJ_DIRECTORY_CONTROL(c), N/A(2)]
+            1  1 ffffe50102f5e030 ffffe50107f7b300 00000000-00000000    pending
+	       \FileSystem\Ntfs
+			Args: 00000800 00000002 00000000 00000000
+
+Irp Extension present at 0xffffe501076dbe08:
+
+lkd> dt nt!_IRP ffffe501076dba20
+   +0x000 Type             : 0n6
+   +0x002 Size             : 0x430
+   +0x004 AllocationProcessorNumber : 1
+   +0x006 Reserved         : 0
+   +0x008 MdlAddress       : (null) 
+   +0x010 Flags            : 0x60000
+   +0x018 AssociatedIrp    : <anonymous-tag>
+   +0x020 ThreadListEntry  : _LIST_ENTRY [ 0xffffe501`071e58d0 - 0xffffe501`067b0a40 ]
+   +0x030 IoStatus         : _IO_STATUS_BLOCK
+   +0x040 RequestorMode    : 1 ''
+   +0x041 PendingReturned  : 0 ''
+   +0x042 StackCount       : 11 ''
+   +0x043 CurrentLocation  : 11 ''
+   +0x044 Cancel           : 0 ''
+   +0x045 CancelIrql       : 0 ''
+   +0x046 ApcEnvironment   : 0 ''
+   +0x047 AllocationFlags  : 0x4 ''
+   +0x048 UserIosb         : 0x00000000`11651728 _IO_STATUS_BLOCK
+   +0x050 UserEvent        : 0xffffe501`080aa9e0 _KEVENT
+   +0x058 Overlay          : <anonymous-tag>
+   +0x068 CancelRoutine    : 0xfffff801`3e8879b0     void  nt!FsRtlCancelNotify+0
+   +0x070 UserBuffer       : 0x00000000`11650f18 Void
+   +0x078 Tail             : <anonymous-tag>
+
+lkd> !irp ffffe50102a11860
+Irp is active with 6 stacks 7 is current (= 0xffffe50102a11ae0)
+ No Mdl: No System Buffer: Thread 00000000:  Irp is completed.  
+     cmd  flg cl Device   File     Completion-Context
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+ [N/A(0), N/A(0)]
+            0  0 00000000 00000000 00000000-00000000    
+
+			Args: 00000000 00000000 00000000 00000000
+
+lkd> dt nt!_IRP ffffe50102a11860
+   +0x000 Type             : 0n6
+   +0x002 Size             : 0x4c0
+   +0x004 AllocationProcessorNumber : 0
+   +0x006 Reserved         : 0
+   +0x008 MdlAddress       : (null) 
+   +0x010 Flags            : 0
+   +0x018 AssociatedIrp    : <anonymous-tag>
+   +0x020 ThreadListEntry  : _LIST_ENTRY [ 0xffffe501`02a11880 - 0xffffe501`02a11880 ]
+   +0x030 IoStatus         : _IO_STATUS_BLOCK
+   +0x040 RequestorMode    : 0 ''
+   +0x041 PendingReturned  : 0 ''
+   +0x042 StackCount       : 6 ''
+   +0x043 CurrentLocation  : 7 ''
+   +0x044 Cancel           : 0 ''
+   +0x045 CancelIrql       : 0 ''
+   +0x046 ApcEnvironment   : 0 ''
+   +0x047 AllocationFlags  : 0x4 ''
+   +0x048 UserIosb         : (null) 
+   +0x050 UserEvent        : (null) 
+   +0x058 Overlay          : <anonymous-tag>
+   +0x068 CancelRoutine    : (null) 
+   +0x070 UserBuffer       : (null) 
+   +0x078 Tail             : <anonymous-tag>
