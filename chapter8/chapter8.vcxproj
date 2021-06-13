@@ -134,7 +134,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link>
-      <AdditionalOptions>/integritycheck %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/integritycheck /Brepro %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -20,7 +20,9 @@
 typedef enum _NOTIFICATION_EVENT_TYPE {
 	None,
 	ProcessCreate,
-	ProcessExit
+	ProcessExit,
+	ThreadCreate,
+	ThreadExit
 } NOTIFICATION_EVENT_TYPE;
 
 // Hold information common to all event types
@@ -44,6 +46,13 @@ typedef struct _PROCESS_EXIT_DATA {
 	EVENT_DATA_HEADER Header;
 	DWORD32 ProcessId;
 } PROCESS_EXIT_DATA, * PPROCESS_EXIT_DATA;
+
+// Hold thread creation/termination event data
+typedef struct _THREAD_CREATE_EXIT_DATA {
+	EVENT_DATA_HEADER Header;
+	DWORD32 ThreadId;
+	DWORD32 ProcessId;
+} THREAD_CREATE_EXIT_DATA, * PTHREAD_CREATE_EXIT_DATA;
 
 // Represent notification event
 // Templated struct to keep events generic
@@ -197,6 +206,41 @@ void process_notification_callback(PEPROCESS pEprocess, HANDLE pid, PPS_CREATE_N
 	}
 }
 
+// PCREATE_THREAD_NOTIFY_ROUTINE callback routine that gets called by kernel for thread creation and exit notifications
+// Runs at IRQL=0(PASSIVE_LEVEL) or IRQL=1(APC_LEVEL)
+// ------------------------------------------------------------------------
+
+void thread_notification_callback(HANDLE pid, HANDLE tid, BOOLEAN create) {
+	// Init some important stuff
+	FULL_EVENT<THREAD_CREATE_EXIT_DATA>* pFullEventThreadCreateExit = NULL;
+	PTHREAD_CREATE_EXIT_DATA pThreadCreateExitData;
+	LARGE_INTEGER currentTime = { 0 };
+
+	// Allocate memory from Paged pool for full event representing thread creation/termination event
+	pFullEventThreadCreateExit = (FULL_EVENT<THREAD_CREATE_EXIT_DATA>*)ExAllocatePoolWithTag(PagedPool, sizeof(FULL_EVENT<THREAD_CREATE_EXIT_DATA>), POOL_TAG);
+	if (pFullEventThreadCreateExit == NULL) {
+		PRINT("ExAllocatePoolWithTag 3 error: %X\n", STATUS_INSUFFICIENT_RESOURCES);
+		return;
+	}
+
+	// Get THREAD_CREATE_EXIT_DATA structure from full event
+	pThreadCreateExitData = &(pFullEventThreadCreateExit->Data);
+
+	// Get precise current system time in UTC
+	// Only available since Windows 8, for earlier versions, use KeQuerySystemTime
+	KeQuerySystemTimePrecise(&currentTime);
+
+	// Populate THREAD_CREATE_EXIT_DATA structure
+	pThreadCreateExitData->Header.Type = create ? ThreadCreate : ThreadExit;
+	pThreadCreateExitData->Header.Size = sizeof(THREAD_CREATE_EXIT_DATA);
+	pThreadCreateExitData->Header.Time = currentTime;
+	pThreadCreateExitData->ProcessId = HandleToULong(pid);
+	pThreadCreateExitData->ThreadId = HandleToULong(tid);
+
+	// Add event to end of linked list
+	push_event(&pFullEventThreadCreateExit->Entry);
+}
+
 // IRP_MJ_READ dispatch routine
 // ------------------------------------------------------------------------
 
@@ -327,6 +371,9 @@ void driver_unload(PDRIVER_OBJECT pDriverObject) {
 	PLIST_ENTRY pRemovedEventEntry = NULL;
 	FULL_EVENT<EVENT_DATA_HEADER>* pFullEventHeader = NULL;
 
+	// Deregister thread notification callback routine
+	PsRemoveCreateThreadNotifyRoutine(thread_notification_callback);
+
 	// Deregister process notification callback routine
 	PsSetCreateProcessNotifyRoutineEx(process_notification_callback, TRUE);
 
@@ -364,6 +411,7 @@ extern "C" NTSTATUS DriverEntry(_In_ PDRIVER_OBJECT pDriverObject, _In_ PUNICODE
 	PDEVICE_OBJECT pDeviceObject = NULL;
 	BOOLEAN symbolicLinkCreated = FALSE;
 	BOOLEAN processCallbackRegistered = FALSE;
+	BOOLEAN threadCallbackRegistered = FALSE;
 
 	// Set routine to be called on driver unload
 	pDriverObject->DriverUnload = driver_unload;
@@ -410,10 +458,22 @@ extern "C" NTSTATUS DriverEntry(_In_ PDRIVER_OBJECT pDriverObject, _In_ PUNICODE
 	processCallbackRegistered = TRUE;
 	PRINT("Process callback routine registered!\n");
 
+	// Register callback routine for thread creation/termination notifications
+	status = PsSetCreateThreadNotifyRoutine(thread_notification_callback);
+	if (status != STATUS_SUCCESS) {
+		PRINT("PsSetCreateThreadNotifyRoutine error: %X\n", status);
+		goto cleanup;
+	}
+	threadCallbackRegistered = TRUE;
+	PRINT("Thread callback routine registered!\n");
+
 	return STATUS_SUCCESS;
 
 	// Cleanup
 cleanup:
+	if (threadCallbackRegistered)
+		PsRemoveCreateThreadNotifyRoutine(thread_notification_callback);
+
 	if (processCallbackRegistered)
 		PsSetCreateProcessNotifyRoutineEx(process_notification_callback, TRUE);
 

@@ -18,7 +18,9 @@
 typedef enum _NOTIFICATION_EVENT_TYPE {
 	None,
 	ProcessCreate,
-	ProcessExit
+	ProcessExit,
+	ThreadCreate,
+	ThreadExit
 } NOTIFICATION_EVENT_TYPE;
 
 // Hold information common to all event types
@@ -43,13 +45,12 @@ typedef struct _PROCESS_EXIT_DATA {
 	DWORD32 ProcessId;
 } PROCESS_EXIT_DATA, * PPROCESS_EXIT_DATA;
 
-// Represent notification event
-// Templated struct to keep events generic
-template<typename T>
-struct FULL_EVENT {
-	LIST_ENTRY Entry;
-	T Data;
-};
+// Hold thread creation/termination event data
+typedef struct _THREAD_CREATE_EXIT_DATA {
+	EVENT_DATA_HEADER Header;
+	DWORD32 ThreadId;
+	DWORD32 ProcessId;
+} THREAD_CREATE_EXIT_DATA, * PTHREAD_CREATE_EXIT_DATA;
 
 // Print event time to console in human-readable fashion
 // ------------------------------------------------------------------------
@@ -75,6 +76,7 @@ void print_event_info(PBYTE pBuffer, DWORD bufferSize) {
 	PPROCESS_EXIT_DATA pProcessExitData = NULL;
 	PPROCESS_CREATE_DATA pProcessCreateData = NULL;
 	std::wstring commandLine = L"";
+	PTHREAD_CREATE_EXIT_DATA pThreadCreateExitData = NULL;
 
 	// Loop till there are events in read buffer
 	while (count > 0) {
@@ -83,6 +85,22 @@ void print_event_info(PBYTE pBuffer, DWORD bufferSize) {
 
 		// Check which type of notification event we have received
 		switch (pEventDataHeader->Type) {
+		// Process create event
+		case ProcessCreate: {
+			// Print event time to console
+			print_time(&(pEventDataHeader->Time));
+
+			// Get pointer to process create data from read buffer
+			pProcessCreateData = (PROCESS_CREATE_DATA*)pBuffer;
+
+			// Extract command line string using its length and offset from beginning of structure
+			// Command line characters follow process create data structure in memory 
+			commandLine = std::wstring((WCHAR*)(pBuffer + pProcessCreateData->CommandLineOffset), pProcessCreateData->CommandLineLength);
+
+			// Print process create data to console
+			printf("Process %d Created. Command line: %ws\n", pProcessCreateData->ProcessId, commandLine.c_str());
+			break;
+		}
 		// Process exit event
 		case ProcessExit: {
 			// Print event time to console
@@ -95,20 +113,28 @@ void print_event_info(PBYTE pBuffer, DWORD bufferSize) {
 			printf("Process %d Exited\n", pProcessExitData->ProcessId);
 			break;
 		}
-		// Process create event
-		case ProcessCreate: {
+		// Thread create event
+		case ThreadCreate: {
 			// Print event time to console
 			print_time(&(pEventDataHeader->Time));
 
-			// Get pointer to process create data from read buffer
-			pProcessCreateData = (PROCESS_CREATE_DATA*)pBuffer;
+			// Get pointer to thread create data from read buffer
+			pThreadCreateExitData = (THREAD_CREATE_EXIT_DATA*)pBuffer;
 
-			// Extract command line string using its length and offset from beginning of structure
-			// Command line characters follow process create data structure in memory 
-			commandLine = std::wstring((WCHAR*)(pBuffer + pProcessCreateData->CommandLineOffset), pProcessCreateData->CommandLineLength);
-			
-			// Print process create data to console
-			printf("Process %d Created. Command line: %ws\n", pProcessCreateData->ProcessId, commandLine.c_str());
+			// Print thread create data to console
+			printf("Thread %d Created in process %d\n", pThreadCreateExitData->ThreadId, pThreadCreateExitData->ProcessId);
+			break;
+		}
+		// Thread exit event
+		case ThreadExit: {
+			// Print event time to console
+			print_time(&(pEventDataHeader->Time));
+
+			// Get pointer to thread exit data from read buffer
+			pThreadCreateExitData = (THREAD_CREATE_EXIT_DATA*)pBuffer;
+
+			// Print thread exit data to console
+			printf("Thread %d Exited from process %d\n", pThreadCreateExitData->ThreadId, pThreadCreateExitData->ProcessId);
 			break;
 		}
 		default:
