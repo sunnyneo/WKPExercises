@@ -11,6 +11,9 @@
 // Symbolic link object name macro for UM access to device object
 #define DEVICE_SYMBOLIC_LINK L"\\\\.\\SysMon"
 
+// Maximum image file name size macro for image load callbacks
+#define MAX_IMAGE_FILE_NAME_SIZE 300
+
 // Structs/Enums
 // ------------------------------------------------------------------------
 
@@ -20,7 +23,8 @@ typedef enum _NOTIFICATION_EVENT_TYPE {
 	ProcessCreate,
 	ProcessExit,
 	ThreadCreate,
-	ThreadExit
+	ThreadExit,
+	ImageLoad
 } NOTIFICATION_EVENT_TYPE;
 
 // Hold information common to all event types
@@ -52,6 +56,15 @@ typedef struct _THREAD_CREATE_EXIT_DATA {
 	DWORD32 ProcessId;
 } THREAD_CREATE_EXIT_DATA, * PTHREAD_CREATE_EXIT_DATA;
 
+// Hold image load/map(EXE/DLL/SYS) event data
+typedef struct _IMAGE_LOAD_DATA {
+	EVENT_DATA_HEADER Header;
+	DWORD32 ProcessId;
+	PVOID LoadAddress;
+	DWORD64 ImageFileSize;
+	WCHAR ImageFileName[MAX_IMAGE_FILE_NAME_SIZE + 1];
+} IMAGE_LOAD_DATA, * PIMAGE_LOAD_DATA;
+
 // Print event time to console in human-readable fashion
 // ------------------------------------------------------------------------
 
@@ -77,6 +90,7 @@ void print_event_info(PBYTE pBuffer, DWORD bufferSize) {
 	PPROCESS_CREATE_DATA pProcessCreateData = NULL;
 	std::wstring commandLine = L"";
 	PTHREAD_CREATE_EXIT_DATA pThreadCreateExitData = NULL;
+	PIMAGE_LOAD_DATA pImageLoadData = NULL;
 
 	// Loop till there are events in read buffer
 	while (count > 0) {
@@ -135,6 +149,18 @@ void print_event_info(PBYTE pBuffer, DWORD bufferSize) {
 
 			// Print thread exit data to console
 			printf("Thread %d Exited from process %d\n", pThreadCreateExitData->ThreadId, pThreadCreateExitData->ProcessId);
+			break;
+		}
+		// Image load event
+		case ImageLoad: {
+			// Print event time to console
+			print_time(&(pEventDataHeader->Time));
+
+			// Get pointer to image load/map data from read buffer
+			pImageLoadData = (IMAGE_LOAD_DATA*)pBuffer;
+
+			// Print image load/map data to console
+			printf("Image loaded into process %d at address 0x%p (%ws)\n", pImageLoadData->ProcessId, pImageLoadData->LoadAddress, pImageLoadData->ImageFileName);
 			break;
 		}
 		default:

@@ -13,6 +13,9 @@
 // Pool tag macro in reverse order due to Little Endianness
 #define POOL_TAG 'SYS'
 
+// Maximum image file name size macro for image load callbacks
+#define MAX_IMAGE_FILE_NAME_SIZE 300
+
 // Structs/Enums
 // ------------------------------------------------------------------------
 
@@ -22,7 +25,8 @@ typedef enum _NOTIFICATION_EVENT_TYPE {
 	ProcessCreate,
 	ProcessExit,
 	ThreadCreate,
-	ThreadExit
+	ThreadExit,
+	ImageLoad
 } NOTIFICATION_EVENT_TYPE;
 
 // Hold information common to all event types
@@ -53,6 +57,15 @@ typedef struct _THREAD_CREATE_EXIT_DATA {
 	DWORD32 ThreadId;
 	DWORD32 ProcessId;
 } THREAD_CREATE_EXIT_DATA, * PTHREAD_CREATE_EXIT_DATA;
+
+// Hold image load/map(EXE/DLL/SYS) event data
+typedef struct _IMAGE_LOAD_DATA {
+	EVENT_DATA_HEADER Header;
+	DWORD32 ProcessId;
+	PVOID LoadAddress;
+	DWORD64 ImageFileSize;
+	WCHAR ImageFileName[MAX_IMAGE_FILE_NAME_SIZE + 1];
+} IMAGE_LOAD_DATA, * PIMAGE_LOAD_DATA;
 
 // Represent notification event
 // Templated struct to keep events generic
@@ -192,7 +205,6 @@ void process_notification_callback(PEPROCESS pEprocess, HANDLE pid, PPS_CREATE_N
 		pProcessExitData = &(pFullEventProcessExit->Data);
 
 		// Get precise current system time in UTC
-		// Only available since Windows 8, for earlier versions, use KeQuerySystemTime
 		KeQuerySystemTimePrecise(&currentTime);
 
 		// Populate PROCESS_EXIT_DATA structure
@@ -227,7 +239,6 @@ void thread_notification_callback(HANDLE pid, HANDLE tid, BOOLEAN create) {
 	pThreadCreateExitData = &(pFullEventThreadCreateExit->Data);
 
 	// Get precise current system time in UTC
-	// Only available since Windows 8, for earlier versions, use KeQuerySystemTime
 	KeQuerySystemTimePrecise(&currentTime);
 
 	// Populate THREAD_CREATE_EXIT_DATA structure
@@ -239,6 +250,50 @@ void thread_notification_callback(HANDLE pid, HANDLE tid, BOOLEAN create) {
 
 	// Add event to end of linked list
 	push_event(&pFullEventThreadCreateExit->Entry);
+}
+
+// PLOAD_IMAGE_NOTIFY_ROUTINE callback routine that gets called by kernel for image(EXE/DLL/SYS) loaded or mapped into virtual memory notifications
+// Runs at IRQL=0(PASSIVE_LEVEL)
+// ------------------------------------------------------------------------
+
+void image_load_notification_callback(PUNICODE_STRING pFullImageName, HANDLE pid, PIMAGE_INFO pImageInfo) {
+	// Init some important stuff
+	FULL_EVENT<IMAGE_LOAD_DATA>* pFullEventImageLoad = NULL;
+	PIMAGE_LOAD_DATA pImageLoadData = NULL;
+	LARGE_INTEGER currentTime = { 0 };
+
+	// Allocate memory from Paged pool for full event representing image load/map event
+	pFullEventImageLoad = (FULL_EVENT<IMAGE_LOAD_DATA>*)ExAllocatePoolWithTag(PagedPool, sizeof(FULL_EVENT<IMAGE_LOAD_DATA>), POOL_TAG);
+	if (pFullEventImageLoad == NULL) {
+		PRINT("ExAllocatePoolWithTag 4 error: %X\n", STATUS_INSUFFICIENT_RESOURCES);
+		return;
+	}
+
+	// Get IMAGE_LOAD_DATA structure from full event
+	pImageLoadData = &(pFullEventImageLoad->Data);
+
+	// Get precise current system time in UTC
+	KeQuerySystemTimePrecise(&currentTime);
+
+	// Populate IMAGE_LOAD_DATA structure
+	pImageLoadData->Header.Type = ImageLoad;
+	pImageLoadData->Header.Size = sizeof(IMAGE_LOAD_DATA);
+	pImageLoadData->Header.Time = currentTime;
+	pImageLoadData->ProcessId = HandleToULong(pid);
+	pImageLoadData->ImageFileSize = pImageInfo->ImageSize;
+	pImageLoadData->LoadAddress = pImageInfo->ImageBase;
+	// Check if FullImageName is NULL or not, may be NULL in some cases
+	if (pFullImageName) {
+		// Copy image file name to IMAGE_LOAD_DATA structure
+		RtlCopyMemory(pImageLoadData->ImageFileName, pFullImageName->Buffer, min(pFullImageName->Length, MAX_IMAGE_FILE_NAME_SIZE * sizeof(WCHAR)));
+	}
+	else {
+		// Copy image file name as unknown since kernel was unable to determine FullImageName
+		wcscpy_s(pImageLoadData->ImageFileName, L"(unknown)");
+	}
+
+	// Add event to end of linked list
+	push_event(&pFullEventImageLoad->Entry);
 }
 
 // IRP_MJ_READ dispatch routine
@@ -371,6 +426,9 @@ void driver_unload(PDRIVER_OBJECT pDriverObject) {
 	PLIST_ENTRY pRemovedEventEntry = NULL;
 	FULL_EVENT<EVENT_DATA_HEADER>* pFullEventHeader = NULL;
 
+	// Deregister image load notification callback routine
+	PsRemoveLoadImageNotifyRoutine(image_load_notification_callback);
+
 	// Deregister thread notification callback routine
 	PsRemoveCreateThreadNotifyRoutine(thread_notification_callback);
 
@@ -412,6 +470,7 @@ extern "C" NTSTATUS DriverEntry(_In_ PDRIVER_OBJECT pDriverObject, _In_ PUNICODE
 	BOOLEAN symbolicLinkCreated = FALSE;
 	BOOLEAN processCallbackRegistered = FALSE;
 	BOOLEAN threadCallbackRegistered = FALSE;
+	BOOLEAN imageCallbackRegistered = FALSE;
 
 	// Set routine to be called on driver unload
 	pDriverObject->DriverUnload = driver_unload;
@@ -467,10 +526,22 @@ extern "C" NTSTATUS DriverEntry(_In_ PDRIVER_OBJECT pDriverObject, _In_ PUNICODE
 	threadCallbackRegistered = TRUE;
 	PRINT("Thread callback routine registered!\n");
 
+	// Register callback routine for image load/map notifications
+	status = PsSetLoadImageNotifyRoutine(image_load_notification_callback);
+	if (status != STATUS_SUCCESS) {
+		PRINT("PsSetLoadImageNotifyRoutine error: %X\n", status);
+		goto cleanup;
+	}
+	imageCallbackRegistered = TRUE;
+	PRINT("Image callback routine registered!\n");
+
 	return STATUS_SUCCESS;
 
 	// Cleanup
 cleanup:
+	if (imageCallbackRegistered)
+		PsRemoveLoadImageNotifyRoutine(image_load_notification_callback);
+
 	if (threadCallbackRegistered)
 		PsRemoveCreateThreadNotifyRoutine(thread_notification_callback);
 
