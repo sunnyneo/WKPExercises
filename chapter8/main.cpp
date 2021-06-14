@@ -275,6 +275,9 @@ void image_load_notification_callback(PUNICODE_STRING pFullImageName, HANDLE pid
 	// Get precise current system time in UTC
 	KeQuerySystemTimePrecise(&currentTime);
 
+	// Secure zero out IMAGE_LOAD_DATA buffer
+	RtlSecureZeroMemory(pImageLoadData, sizeof(IMAGE_LOAD_DATA));
+
 	// Populate IMAGE_LOAD_DATA structure
 	pImageLoadData->Header.Type = ImageLoad;
 	pImageLoadData->Header.Size = sizeof(IMAGE_LOAD_DATA);
