@@ -1,6 +1,7 @@
 // Includes
 // ------------------------------------------------------------------------
 
+#include <ntifs.h>
 #include <ntddk.h>
 
 // Macros
@@ -51,12 +52,21 @@ typedef struct _PROCESS_EXIT_DATA {
 	DWORD32 ProcessId;
 } PROCESS_EXIT_DATA, * PPROCESS_EXIT_DATA;
 
-// Hold thread creation/termination event data
-typedef struct _THREAD_CREATE_EXIT_DATA {
+// Hold thread creation event data
+typedef struct _THREAD_CREATE_DATA {
 	EVENT_DATA_HEADER Header;
 	DWORD32 ThreadId;
 	DWORD32 ProcessId;
-} THREAD_CREATE_EXIT_DATA, * PTHREAD_CREATE_EXIT_DATA;
+	BOOLEAN isCreatedRemote;
+	DWORD32 RemoteProcessId;
+} THREAD_CREATE_DATA, * PTHREAD_CREATE_DATA;
+
+// Hold thread termination event data
+typedef struct _THREAD_EXIT_DATA {
+	EVENT_DATA_HEADER Header;
+	DWORD32 ThreadId;
+	DWORD32 ProcessId;
+} THREAD_EXIT_DATA, * PTHREAD_EXIT_DATA;
 
 // Hold image load/map(EXE/DLL/SYS) event data
 typedef struct _IMAGE_LOAD_DATA {
@@ -224,32 +234,91 @@ void process_notification_callback(PEPROCESS pEprocess, HANDLE pid, PPS_CREATE_N
 
 void thread_notification_callback(HANDLE pid, HANDLE tid, BOOLEAN create) {
 	// Init some important stuff
-	FULL_EVENT<THREAD_CREATE_EXIT_DATA>* pFullEventThreadCreateExit = NULL;
-	PTHREAD_CREATE_EXIT_DATA pThreadCreateExitData;
+	FULL_EVENT<THREAD_CREATE_DATA>* pFullEventThreadCreate = NULL;
+	PTHREAD_CREATE_DATA pThreadCreateData;
 	LARGE_INTEGER currentTime = { 0 };
+	HANDLE currentPid = NULL;
+	NTSTATUS status = STATUS_SUCCESS;
+	PEPROCESS pEprocess = NULL;
+	PDWORD32 pActiveThreads = NULL;
+	DWORD32 activeThreads = 0;
+	FULL_EVENT<THREAD_EXIT_DATA>* pFullEventThreadExit = NULL;
+	PTHREAD_EXIT_DATA pThreadExitData = NULL;
 
-	// Allocate memory from Paged pool for full event representing thread creation/termination event
-	pFullEventThreadCreateExit = (FULL_EVENT<THREAD_CREATE_EXIT_DATA>*)ExAllocatePoolWithTag(PagedPool, sizeof(FULL_EVENT<THREAD_CREATE_EXIT_DATA>), POOL_TAG);
-	if (pFullEventThreadCreateExit == NULL) {
-		PRINT("ExAllocatePoolWithTag 3 error: %X\n", STATUS_INSUFFICIENT_RESOURCES);
-		return;
+	// Handle thread creation event
+	if (create) {
+		// Allocate memory from Paged pool for full event representing thread creation event
+		pFullEventThreadCreate = (FULL_EVENT<THREAD_CREATE_DATA>*)ExAllocatePoolWithTag(PagedPool, sizeof(FULL_EVENT<THREAD_CREATE_DATA>), POOL_TAG);
+		if (pFullEventThreadCreate == NULL) {
+			PRINT("ExAllocatePoolWithTag 3 error: %X\n", STATUS_INSUFFICIENT_RESOURCES);
+			return;
+		}
+
+		// Get THREAD_CREATE_DATA structure from full event
+		pThreadCreateData = &(pFullEventThreadCreate->Data);
+
+		// Get precise current system time in UTC
+		KeQuerySystemTimePrecise(&currentTime);
+
+		// Get PID of current process/process in whose context callback is called
+		currentPid = PsGetCurrentProcessId();
+
+		// Get nt!_EPROCESS structure of remote process by its PID
+		status = PsLookupProcessByProcessId(pid, &pEprocess);
+		if (status != STATUS_SUCCESS) {
+			PRINT("PsLookupProcessByProcessId error: %X\n", status);
+			return;
+		}
+
+		// Get number of active threads in target process
+		pActiveThreads = (PDWORD32)((DWORD64)pEprocess + 0x5f0); // hardcoded offset for Win 10 21H1, 20H2, 20H1
+		activeThreads = *pActiveThreads; // Dereference pointer to get value
+
+		// Populate THREAD_CREATE_DATA structure
+		pThreadCreateData->Header.Type = ThreadCreate;
+		pThreadCreateData->Header.Size = sizeof(THREAD_CREATE_DATA);
+		pThreadCreateData->Header.Time = currentTime;
+		pThreadCreateData->ProcessId = HandleToULong(pid);
+		pThreadCreateData->ThreadId = HandleToULong(tid);
+		// Check if thread is created remotely
+		// Exclude first thread since it is always created remotely
+		if (pid != currentPid && activeThreads > 1) {
+			pThreadCreateData->isCreatedRemote = TRUE;
+			pThreadCreateData->RemoteProcessId = HandleToULong(currentPid);
+		}
+		else {
+			pThreadCreateData->isCreatedRemote = FALSE;
+			pThreadCreateData->RemoteProcessId = 0;
+		}
+
+		// Add event to end of linked list
+		push_event(&pFullEventThreadCreate->Entry);
 	}
+	// Handle thread termination event
+	else {
+		// Allocate memory from Paged pool for full event representing thread termination event
+		pFullEventThreadExit = (FULL_EVENT<THREAD_EXIT_DATA>*)ExAllocatePoolWithTag(PagedPool, sizeof(FULL_EVENT<THREAD_EXIT_DATA>), POOL_TAG);
+		if (pFullEventThreadExit == NULL) {
+			PRINT("ExAllocatePoolWithTag 4 error: %X\n", STATUS_INSUFFICIENT_RESOURCES);
+			return;
+		}
 
-	// Get THREAD_CREATE_EXIT_DATA structure from full event
-	pThreadCreateExitData = &(pFullEventThreadCreateExit->Data);
+		// Get THREAD_EXIT_DATA structure from full event
+		pThreadExitData = &(pFullEventThreadExit->Data);
 
-	// Get precise current system time in UTC
-	KeQuerySystemTimePrecise(&currentTime);
+		// Get precise current system time in UTC
+		KeQuerySystemTimePrecise(&currentTime);
 
-	// Populate THREAD_CREATE_EXIT_DATA structure
-	pThreadCreateExitData->Header.Type = create ? ThreadCreate : ThreadExit;
-	pThreadCreateExitData->Header.Size = sizeof(THREAD_CREATE_EXIT_DATA);
-	pThreadCreateExitData->Header.Time = currentTime;
-	pThreadCreateExitData->ProcessId = HandleToULong(pid);
-	pThreadCreateExitData->ThreadId = HandleToULong(tid);
+		// Populate THREAD_EXIT_DATA structure
+		pThreadExitData->Header.Type = ThreadExit;
+		pThreadExitData->Header.Size = sizeof(THREAD_EXIT_DATA);
+		pThreadExitData->Header.Time = currentTime;
+		pThreadExitData->ProcessId = HandleToULong(pid);
+		pThreadExitData->ThreadId = HandleToULong(tid);
 
-	// Add event to end of linked list
-	push_event(&pFullEventThreadCreateExit->Entry);
+		// Add event to end of linked list
+		push_event(&pFullEventThreadExit->Entry);
+	}
 }
 
 // PLOAD_IMAGE_NOTIFY_ROUTINE callback routine that gets called by kernel for image(EXE/DLL/SYS) loaded or mapped into virtual memory notifications
@@ -265,7 +334,7 @@ void image_load_notification_callback(PUNICODE_STRING pFullImageName, HANDLE pid
 	// Allocate memory from Paged pool for full event representing image load/map event
 	pFullEventImageLoad = (FULL_EVENT<IMAGE_LOAD_DATA>*)ExAllocatePoolWithTag(PagedPool, sizeof(FULL_EVENT<IMAGE_LOAD_DATA>), POOL_TAG);
 	if (pFullEventImageLoad == NULL) {
-		PRINT("ExAllocatePoolWithTag 4 error: %X\n", STATUS_INSUFFICIENT_RESOURCES);
+		PRINT("ExAllocatePoolWithTag 5 error: %X\n", STATUS_INSUFFICIENT_RESOURCES);
 		return;
 	}
 

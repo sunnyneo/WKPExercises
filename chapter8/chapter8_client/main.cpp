@@ -49,12 +49,21 @@ typedef struct _PROCESS_EXIT_DATA {
 	DWORD32 ProcessId;
 } PROCESS_EXIT_DATA, * PPROCESS_EXIT_DATA;
 
-// Hold thread creation/termination event data
-typedef struct _THREAD_CREATE_EXIT_DATA {
+// Hold thread creation event data
+typedef struct _THREAD_CREATE_DATA {
 	EVENT_DATA_HEADER Header;
 	DWORD32 ThreadId;
 	DWORD32 ProcessId;
-} THREAD_CREATE_EXIT_DATA, * PTHREAD_CREATE_EXIT_DATA;
+	BOOLEAN isCreatedRemote;
+	DWORD32 RemoteProcessId;
+} THREAD_CREATE_DATA, * PTHREAD_CREATE_DATA;
+
+// Hold thread termination event data
+typedef struct _THREAD_EXIT_DATA {
+	EVENT_DATA_HEADER Header;
+	DWORD32 ThreadId;
+	DWORD32 ProcessId;
+} THREAD_EXIT_DATA, * PTHREAD_EXIT_DATA;
 
 // Hold image load/map(EXE/DLL/SYS) event data
 typedef struct _IMAGE_LOAD_DATA {
@@ -89,7 +98,8 @@ void print_event_info(PBYTE pBuffer, DWORD bufferSize) {
 	PPROCESS_EXIT_DATA pProcessExitData = NULL;
 	PPROCESS_CREATE_DATA pProcessCreateData = NULL;
 	std::wstring commandLine = L"";
-	PTHREAD_CREATE_EXIT_DATA pThreadCreateExitData = NULL;
+	PTHREAD_CREATE_DATA pThreadCreateData = NULL;
+	PTHREAD_EXIT_DATA pThreadExitData = NULL;
 	PIMAGE_LOAD_DATA pImageLoadData = NULL;
 
 	// Loop till there are events in read buffer
@@ -133,10 +143,14 @@ void print_event_info(PBYTE pBuffer, DWORD bufferSize) {
 			print_time(&(pEventDataHeader->Time));
 
 			// Get pointer to thread create data from read buffer
-			pThreadCreateExitData = (THREAD_CREATE_EXIT_DATA*)pBuffer;
+			pThreadCreateData = (THREAD_CREATE_DATA*)pBuffer;
 
 			// Print thread create data to console
-			printf("Thread %d Created in process %d\n", pThreadCreateExitData->ThreadId, pThreadCreateExitData->ProcessId);
+			if (pThreadCreateData->isCreatedRemote == TRUE) {
+				printf("Remote Thread %d Created in process %d by remote process %d\n", pThreadCreateData->ThreadId, pThreadCreateData->ProcessId, pThreadCreateData->RemoteProcessId);
+			}
+			else
+				printf("Thread %d Created in process %d\n", pThreadCreateData->ThreadId, pThreadCreateData->ProcessId);
 			break;
 		}
 		// Thread exit event
@@ -145,10 +159,10 @@ void print_event_info(PBYTE pBuffer, DWORD bufferSize) {
 			print_time(&(pEventDataHeader->Time));
 
 			// Get pointer to thread exit data from read buffer
-			pThreadCreateExitData = (THREAD_CREATE_EXIT_DATA*)pBuffer;
+			pThreadExitData = (THREAD_EXIT_DATA*)pBuffer;
 
 			// Print thread exit data to console
-			printf("Thread %d Exited from process %d\n", pThreadCreateExitData->ThreadId, pThreadCreateExitData->ProcessId);
+			printf("Thread %d Exited from process %d\n", pThreadExitData->ThreadId, pThreadExitData->ProcessId);
 			break;
 		}
 		// Image load event
