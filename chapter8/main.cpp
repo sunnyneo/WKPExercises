@@ -235,7 +235,7 @@ void process_notification_callback(PEPROCESS pEprocess, HANDLE pid, PPS_CREATE_N
 void thread_notification_callback(HANDLE pid, HANDLE tid, BOOLEAN create) {
 	// Init some important stuff
 	FULL_EVENT<THREAD_CREATE_DATA>* pFullEventThreadCreate = NULL;
-	PTHREAD_CREATE_DATA pThreadCreateData;
+	PTHREAD_CREATE_DATA pThreadCreateData = NULL;
 	LARGE_INTEGER currentTime = { 0 };
 	HANDLE currentPid = NULL;
 	NTSTATUS status = STATUS_SUCCESS;
