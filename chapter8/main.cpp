@@ -17,6 +17,12 @@
 // Maximum image file name size macro for image load callbacks
 #define MAX_IMAGE_FILE_NAME_SIZE 300
 
+// Maximum event count
+#define MAX_EVENT_COUNT 1024
+
+// Maximum blocked executable count
+#define MAX_BLOCKEDEXE_COUNT 10
+
 // Structs/Enums
 // ------------------------------------------------------------------------
 
@@ -44,6 +50,7 @@ typedef struct _PROCESS_CREATE_DATA {
 	DWORD32 ParentProcessId;
 	USHORT CommandLineLength;
 	USHORT CommandLineOffset;
+	BOOLEAN isBlocked;
 } PROCESS_CREATE_DATA, * PPROCESS_CREATE_DATA;
 
 // Hold process termination event data
@@ -98,6 +105,12 @@ LIST_ENTRY eventHead;
 // Total number of events
 USHORT eventCount;
 
+// nt!_UNICODE_STRING global array to store blocklisted executable NT path
+UNICODE_STRING exeBlockList[MAX_BLOCKEDEXE_COUNT];
+
+// Total number of blocked executables
+USHORT blockedExeCount;
+
 // Allocate fast mutex to protect list from concurrent access by multiple threads
 FAST_MUTEX fastMutex;
 
@@ -115,7 +128,7 @@ void push_event(PLIST_ENTRY pListEntry) {
 	// Use SEH since it is important to release fast mutex no matter what happens
 	__try {
 		// Limit events in list since no guarantee they are being consumed properly
-		if (eventCount > 1024) {
+		if (eventCount > MAX_EVENT_COUNT) {
 			// Too many events, remove beginning entry/oldest event from list
 			pRemovedEventEntry = RemoveHeadList(&eventHead);
 
@@ -155,6 +168,7 @@ void process_notification_callback(PEPROCESS pEprocess, HANDLE pid, PPS_CREATE_N
 	FULL_EVENT<PROCESS_CREATE_DATA>* pFullEventProcessCreate = NULL;
 	PPROCESS_CREATE_DATA pProcessCreateData;
 	LARGE_INTEGER currentTime = { 0 };
+	BOOLEAN blocked = FALSE;
 	FULL_EVENT<PROCESS_EXIT_DATA>* pFullEventProcessExit = NULL;
 	PPROCESS_EXIT_DATA pProcessExitData;
 
@@ -182,12 +196,41 @@ void process_notification_callback(PEPROCESS pEprocess, HANDLE pid, PPS_CREATE_N
 		// Only available since Windows 8, for earlier versions, use KeQuerySystemTime
 		KeQuerySystemTimePrecise(&currentTime);
 
+		// Acquire ownership of fast mutex, raises current CPU IRQL to 1(APC_LEVEL)
+		ExAcquireFastMutex(&fastMutex);
+
+		// Use SEH since it is important to release fast mutex no matter what happens
+		__try {
+			// Loop over executable blocklist
+			for (int i = 0; i < MAX_BLOCKEDEXE_COUNT; i++) {
+				// Check if there are executables in blocklist
+				if (exeBlockList[i].Buffer) {
+					// Compare if newly created process's ImageFileName matches blocked executable NT path
+					// Possible to circumvent simply by copying executable to new directory or renaming it
+					if (RtlCompareUnicodeString(pPsCreateNotifyInfo->ImageFileName, &exeBlockList[i], TRUE) == 0) {
+						// Set flag in nt!PS_CREATE_NOTIFY_INFO to prevent process creation
+						pPsCreateNotifyInfo->CreationStatus = STATUS_ACCESS_DENIED;
+						PRINT("Blocked attempt to execute blocklisted PE: %wZ\n", pPsCreateNotifyInfo->ImageFileName);
+
+						// Set flag to indicate process was blocked from starting
+						blocked = TRUE;
+						break;
+					}
+				}
+			}
+		}
+		__finally {
+			// Release ownership of fast mutex, lowers current CPU IRQL to 0(DISPATCH_LEVEL)
+			ExReleaseFastMutex(&fastMutex);
+		}
+
 		// Populate PROCESS_CREATE_DATA structure
 		pProcessCreateData->Header.Type = ProcessCreate;
 		pProcessCreateData->Header.Size = sizeof(PROCESS_CREATE_DATA) + commandLineSize;
 		pProcessCreateData->Header.Time = currentTime;
 		pProcessCreateData->ProcessId = HandleToULong(pid);
 		pProcessCreateData->ParentProcessId = HandleToULong(pPsCreateNotifyInfo->ParentProcessId);
+		pProcessCreateData->isBlocked = blocked;
 		if (commandLineSize > 0) {
 			// Copy command line string to address at end of base structure
 			RtlCopyMemory((UCHAR*)pProcessCreateData + sizeof(*pProcessCreateData), pPsCreateNotifyInfo->CommandLine->Buffer, commandLineSize);
@@ -400,8 +443,7 @@ NTSTATUS driver_read(PDEVICE_OBJECT pDeviceObject, PIRP pIrp) {
 	pBuffer = (PUCHAR)MmGetSystemAddressForMdlSafe(pIrp->MdlAddress, NormalPagePriority);
 	if (pBuffer == NULL) {
 		status = STATUS_INSUFFICIENT_RESOURCES;
-		bytesTransferred = 0;
-		PRINT("MmGetSystemAddressForMdlSafe error: %X\n", status);
+		PRINT("MmGetSystemAddressForMdlSafe 1 error: %X\n", status);
 		goto cleanup;
 	}
 
@@ -470,6 +512,95 @@ cleanup:
 	return status;
 }
 
+// IRP_MJ_WRITE dispatch routine
+// ------------------------------------------------------------------------
+
+NTSTATUS driver_write(PDEVICE_OBJECT pDeviceObject, PIRP pIrp) {
+	// Suppress W4 warning - C4100
+	UNREFERENCED_PARAMETER(pDeviceObject);
+
+	// Init some important stuff
+	PIO_STACK_LOCATION pIoStackLocation = NULL;
+	DWORD32 bufferLength = 0;
+	NTSTATUS status = STATUS_SUCCESS;
+	DWORD32 bytesTransferred = 0;
+	PWCHAR pBuffer = NULL;
+	BOOLEAN ret = FALSE;
+
+	// Get caller's I/O stack location in IRP
+	pIoStackLocation = IoGetCurrentIrpStackLocation(pIrp);
+
+	// Get length of write buffer
+	bufferLength = pIoStackLocation->Parameters.Write.Length;
+	if (bufferLength == 0 || bufferLength > 1024) {
+		status = STATUS_INVALID_BUFFER_SIZE;
+		PRINT("Write buffer length error: %X\n", status);
+		goto cleanup;
+	}
+	bytesTransferred = bufferLength;
+
+	// Map locked user-mode buffer to system space and return its kernel-mode VA
+	pBuffer = (PWCHAR)MmGetSystemAddressForMdlSafe(pIrp->MdlAddress, NormalPagePriority);
+	if (pBuffer == NULL) {
+		status = STATUS_INSUFFICIENT_RESOURCES;
+		bytesTransferred = 0;
+		PRINT("MmGetSystemAddressForMdlSafe 2 error: %X\n", status);
+		goto cleanup;
+	}
+
+	// Check if executable blocklist is already filled
+	if (blockedExeCount == MAX_BLOCKEDEXE_COUNT) {
+		status = STATUS_TOO_MANY_NAMES;
+		bytesTransferred = 0;
+		PRINT("Executable blocklist is already filled error: %X\n", status);
+		goto cleanup;
+	}
+
+	// Null terminate write buffer
+	pBuffer[bufferLength / sizeof(WCHAR) - 1] = L'\0';
+
+	// Acquire ownership of fast mutex, raises current CPU IRQL to 1(APC_LEVEL) 
+	ExAcquireFastMutex(&fastMutex);
+
+	// Use SEH since it is important to release fast mutex no matter what happens
+	__try {
+		// Loop over executable blocklist
+		for (int i = 0; i < MAX_BLOCKEDEXE_COUNT; i++) {
+			// Check if blocklist is not already filled
+			if (exeBlockList[i].Buffer == NULL) {
+				// Allocate memory for global nt!_UNICODE_STRING buffer from Paged pool and copy executable path from write buffer to it
+				ret = RtlCreateUnicodeString(&exeBlockList[i], pBuffer);
+				if (!ret) {
+					status = STATUS_INSUFFICIENT_RESOURCES;
+					bytesTransferred = 0;
+					PRINT("RtlCreateUnicodeString error: %X\n", status);
+					goto cleanup;
+				}
+				PRINT("Added new executable to blocklist: %wZ\n", &exeBlockList[i]);
+
+				// Increment total blocked executable count 
+				blockedExeCount = blockedExeCount + 1;
+				break;
+			}
+		}
+	}
+	__finally {
+		// Release ownership of fast mutex, lowers current CPU IRQL to 0(DISPATCH_LEVEL)
+		ExReleaseFastMutex(&fastMutex);
+	}
+
+	// Cleanup
+cleanup:
+	// Set IRP status and information
+	pIrp->IoStatus.Status = status;
+	pIrp->IoStatus.Information = bytesTransferred;
+
+	// Complete IRP
+	IoCompleteRequest(pIrp, IO_NO_INCREMENT);
+
+	return status;
+}
+
 // IRP_MJ_CREATE/IRP_MJ_CLOSE dispatch routine
 // ------------------------------------------------------------------------
 
@@ -506,6 +637,14 @@ void driver_unload(PDRIVER_OBJECT pDriverObject) {
 
 	// Deregister process notification callback routine
 	PsSetCreateProcessNotifyRoutineEx(process_notification_callback, TRUE);
+
+	// Empty blocked executables from array(if any)
+	for (int i = 0; i < MAX_BLOCKEDEXE_COUNT; i++) {
+		// Check if global nt!_UNICODE_STRING buffer was allocated
+		if (exeBlockList[i].Buffer)
+			// Free allocation for global nt!_UNICODE_STRING buffer
+			RtlFreeUnicodeString(&exeBlockList[i]);
+	}
 
 	// Empty events from list(if any)
 	while (!IsListEmpty(&eventHead)) {
@@ -553,6 +692,9 @@ extern "C" NTSTATUS DriverEntry(_In_ PDRIVER_OBJECT pDriverObject, _In_ PUNICODE
 
 	// Set dispatch routine to be called to read from device object
 	pDriverObject->MajorFunction[IRP_MJ_READ] = driver_read;
+
+	// Set dispatch routine to be called to write to device object
+	pDriverObject->MajorFunction[IRP_MJ_WRITE] = driver_write;
 
 	// Create exclusive device object
 	status = IoCreateDevice(pDriverObject, 0, &deviceName, FILE_DEVICE_UNKNOWN, FILE_DEVICE_SECURE_OPEN, TRUE, &pDeviceObject);

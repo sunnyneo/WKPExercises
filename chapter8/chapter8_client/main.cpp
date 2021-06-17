@@ -41,6 +41,7 @@ typedef struct _PROCESS_CREATE_DATA {
 	DWORD32 ParentProcessId;
 	USHORT CommandLineLength;
 	USHORT CommandLineOffset;
+	BOOLEAN isBlocked;
 } PROCESS_CREATE_DATA, * PPROCESS_CREATE_DATA;
 
 // Hold process termination event data
@@ -122,7 +123,10 @@ void print_event_info(PBYTE pBuffer, DWORD bufferSize) {
 			commandLine = std::wstring((WCHAR*)(pBuffer + pProcessCreateData->CommandLineOffset), pProcessCreateData->CommandLineLength);
 
 			// Print process create data to console
-			printf("Process %d Created. Command line: %ws\n", pProcessCreateData->ProcessId, commandLine.c_str());
+			if (pProcessCreateData->isBlocked == TRUE)
+				printf("Process %d Blocked. Command line: %ws\n", pProcessCreateData->ProcessId, commandLine.c_str());
+			else
+				printf("Process %d Created. Command line: %ws\n", pProcessCreateData->ProcessId, commandLine.c_str());
 			break;
 		}
 		// Process exit event
@@ -146,9 +150,8 @@ void print_event_info(PBYTE pBuffer, DWORD bufferSize) {
 			pThreadCreateData = (THREAD_CREATE_DATA*)pBuffer;
 
 			// Print thread create data to console
-			if (pThreadCreateData->isCreatedRemote == TRUE) {
+			if (pThreadCreateData->isCreatedRemote == TRUE)
 				printf("Remote Thread %d Created in process %d by remote process %d\n", pThreadCreateData->ThreadId, pThreadCreateData->ProcessId, pThreadCreateData->RemoteProcessId);
-			}
 			else
 				printf("Thread %d Created in process %d\n", pThreadCreateData->ThreadId, pThreadCreateData->ProcessId);
 			break;
@@ -192,37 +195,67 @@ void print_event_info(PBYTE pBuffer, DWORD bufferSize) {
 // Entry point
 // ------------------------------------------------------------------------
 
-int main(int argc, const char* argv[]) {
+int wmain(int argc, const wchar_t* argv[]) {
 	// Init some important stuff
 	HANDLE deviceHandle = NULL;
 	BYTE readBuffer[1 << 16] = { 0 }; // 64 kB buffer
 	BOOL ret = 0;
 	DWORD bytesTransferred = 0;
 
+	// Check if number of command line args meets minimum requirement
+	if (argc < 2) {
+		printf("To display all events: chapter8_client.exe -d\n");
+		printf("To add PE to blocklist: chapter8_client.exe -p <full NT path of executable to block>\n");
+		printf("Example: chapter8_client.exe -p \\??\\C:\\Windows\\System32\\notepad.exe\n");
+		return 0;
+	}
+
 	// Get handle to device object
-	deviceHandle = CreateFileW(DEVICE_SYMBOLIC_LINK, GENERIC_READ, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	deviceHandle = CreateFileW(DEVICE_SYMBOLIC_LINK, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 	if (deviceHandle == INVALID_HANDLE_VALUE) {
 		printf("[-] CreateFileW error: %d\n", GetLastError());
 		goto cleanup;
 	}
 	printf("[+] Got handle to device object: %d\n", deviceHandle);
 
-	// Infinite loop to continue polling events from device until termination
-	while (true) {
-		// Read data from device to read buffer
-		ret = ReadFile(deviceHandle, readBuffer, sizeof(readBuffer), &bytesTransferred, NULL);
+	// User asked to display all events to console
+	if (wcscmp(argv[1], L"-d") == 0) {
+		// Infinite loop to continue polling events from device until termination
+		while (true) {
+			// Read data from device to read buffer
+			ret = ReadFile(deviceHandle, readBuffer, sizeof(readBuffer), &bytesTransferred, NULL);
+			if (ret == 0) {
+				printf("[-] ReadFile error: %d\n", GetLastError());
+				goto cleanup;
+			}
+
+			// If we read data from device, pass along read buffer for processing and printing to console
+			if (bytesTransferred != 0)
+				print_event_info(readBuffer, bytesTransferred);
+
+			// Wait for bit before continuing next iteration - 200 ms
+			Sleep(200);
+		}
+	}
+	// User asked to add an executable to execution blocklist
+	else if (wcscmp(argv[1], L"-p") == 0 && argc == 3) {
+		// Write data to device from write buffer
+		ret = WriteFile(deviceHandle, argv[2], (wcslen(argv[2]) + 1) * sizeof(WCHAR), &bytesTransferred, NULL);
 		if (ret == 0) {
-			printf("[-] ReadFile error: %d\n", GetLastError());
+			printf("[-] WriteFile error: %d\n", GetLastError());
 			goto cleanup;
 		}
 
-		// If we read data from device, pass along read buffer for processing and printing to console
-		if (bytesTransferred != 0)
-			print_event_info(readBuffer, bytesTransferred);
-
-		// Wait for bit before continuing next iteration - 200 ms
-		Sleep(200);
+		// Check if driver's IRP_MJ_WRITE dispatch routine is working as intended
+		if (bytesTransferred != (wcslen(argv[2]) + 1) * sizeof(WCHAR)) {
+			printf("[-] Wrong number of bytes written to device: %d\n", bytesTransferred);
+			goto cleanup;
+		}
+		printf("[+] Successfully added executable to blocklist!\n");
 	}
+	// Incorrect command line args
+	else
+		printf("Incorrect args! Quitting...\n");
 
 	// Cleanup
 cleanup:
