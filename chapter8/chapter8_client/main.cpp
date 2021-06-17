@@ -151,7 +151,7 @@ void print_event_info(PBYTE pBuffer, DWORD bufferSize) {
 
 			// Print thread create data to console
 			if (pThreadCreateData->isCreatedRemote == TRUE)
-				printf("Remote Thread %d Created in process %d by remote process %d\n", pThreadCreateData->ThreadId, pThreadCreateData->ProcessId, pThreadCreateData->RemoteProcessId);
+				printf("Thread %d Created in process %d by remote process %d\n", pThreadCreateData->ThreadId, pThreadCreateData->ProcessId, pThreadCreateData->RemoteProcessId);
 			else
 				printf("Thread %d Created in process %d\n", pThreadCreateData->ThreadId, pThreadCreateData->ProcessId);
 			break;
