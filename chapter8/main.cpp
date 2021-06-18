@@ -203,8 +203,8 @@ void process_notification_callback(PEPROCESS pEprocess, HANDLE pid, PPS_CREATE_N
 		__try {
 			// Loop over executable blocklist
 			for (int i = 0; i < MAX_BLOCKEDEXE_COUNT; i++) {
-				// Check if there are executables in blocklist
-				if (exeBlockList[i].Buffer) {
+				// Check if there are executables in blocklist and ImageFileName member is valid
+				if (exeBlockList[i].Buffer && pPsCreateNotifyInfo->FileOpenNameAvailable) {
 					// Compare if newly created process's ImageFileName matches blocked executable NT path
 					// Possible to circumvent simply by copying executable to new directory or renaming it
 					if (RtlCompareUnicodeString(pPsCreateNotifyInfo->ImageFileName, &exeBlockList[i], TRUE) == 0) {
@@ -548,14 +548,6 @@ NTSTATUS driver_write(PDEVICE_OBJECT pDeviceObject, PIRP pIrp) {
 		goto cleanup;
 	}
 
-	// Check if executable blocklist is already filled
-	if (blockedExeCount == MAX_BLOCKEDEXE_COUNT) {
-		status = STATUS_TOO_MANY_NAMES;
-		bytesTransferred = 0;
-		PRINT("Executable blocklist is already filled error: %X\n", status);
-		goto cleanup;
-	}
-
 	// Null terminate write buffer
 	pBuffer[bufferLength / sizeof(WCHAR) - 1] = L'\0';
 
@@ -564,6 +556,14 @@ NTSTATUS driver_write(PDEVICE_OBJECT pDeviceObject, PIRP pIrp) {
 
 	// Use SEH since it is important to release fast mutex no matter what happens
 	__try {
+		// Check if executable blocklist is already filled
+		if (blockedExeCount == MAX_BLOCKEDEXE_COUNT) {
+			status = STATUS_TOO_MANY_NAMES;
+			bytesTransferred = 0;
+			PRINT("Executable blocklist is already filled error: %X\n", status);
+			goto cleanup;
+		}
+
 		// Loop over executable blocklist
 		for (int i = 0; i < MAX_BLOCKEDEXE_COUNT; i++) {
 			// Check if blocklist is not already filled
