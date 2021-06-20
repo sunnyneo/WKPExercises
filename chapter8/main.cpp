@@ -155,6 +155,7 @@ void push_event(PLIST_ENTRY pListEntry) {
 }
 
 // PCREATE_PROCESS_NOTIFY_ROUTINE_EX callback routine that gets called by kernel for process creation and exit notifications
+// Called after first thread is created in process
 // Runs at IRQL=0(PASSIVE_LEVEL)
 // ------------------------------------------------------------------------
 
@@ -272,6 +273,7 @@ void process_notification_callback(PEPROCESS pEprocess, HANDLE pid, PPS_CREATE_N
 }
 
 // PCREATE_THREAD_NOTIFY_ROUTINE callback routine that gets called by kernel for thread creation and exit notifications
+// Called after thread has been created but in INITIALIZED state, will not move to READY state until this routine exits
 // Runs at IRQL=0(PASSIVE_LEVEL) or IRQL=1(APC_LEVEL)
 // ------------------------------------------------------------------------
 
