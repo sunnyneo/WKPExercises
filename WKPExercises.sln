@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chapter8", "chapter8\chapte
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chapter8_client", "chapter8\chapter8_client\chapter8_client.vcxproj", "{BF42B5DF-F5F1-4AE2-A86A-0888DA49A206}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProcessProtect", "chapter9\ProcessProtect\ProcessProtect.vcxproj", "{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -213,6 +215,30 @@ Global
 		{BF42B5DF-F5F1-4AE2-A86A-0888DA49A206}.Release|x64.Build.0 = Release|x64
 		{BF42B5DF-F5F1-4AE2-A86A-0888DA49A206}.Release|x86.ActiveCfg = Release|Win32
 		{BF42B5DF-F5F1-4AE2-A86A-0888DA49A206}.Release|x86.Build.0 = Release|Win32
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Debug|ARM.ActiveCfg = Debug|ARM
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Debug|ARM.Build.0 = Debug|ARM
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Debug|ARM.Deploy.0 = Debug|ARM
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Debug|ARM64.Build.0 = Debug|ARM64
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Debug|x64.ActiveCfg = Debug|x64
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Debug|x64.Build.0 = Debug|x64
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Debug|x64.Deploy.0 = Debug|x64
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Debug|x86.ActiveCfg = Debug|Win32
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Debug|x86.Build.0 = Debug|Win32
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Debug|x86.Deploy.0 = Debug|Win32
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|ARM.ActiveCfg = Release|ARM
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|ARM.Build.0 = Release|ARM
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|ARM.Deploy.0 = Release|ARM
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|ARM64.ActiveCfg = Release|ARM64
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|ARM64.Build.0 = Release|ARM64
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|ARM64.Deploy.0 = Release|ARM64
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|x64.ActiveCfg = Release|x64
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|x64.Build.0 = Release|x64
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|x64.Deploy.0 = Release|x64
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|x86.ActiveCfg = Release|Win32
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|x86.Build.0 = Release|Win32
+		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|x86.Deploy.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

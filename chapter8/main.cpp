@@ -111,7 +111,7 @@ UNICODE_STRING exeBlockList[MAX_BLOCKEDEXE_COUNT];
 // Total number of blocked executables
 USHORT blockedExeCount;
 
-// Allocate fast mutex to protect list from concurrent access by multiple threads
+// Allocate fast mutex to protect shared resources from concurrent access by multiple threads
 FAST_MUTEX fastMutex;
 
 // Add notification event to end of circular doubly linked list storing events in FIFO manner
