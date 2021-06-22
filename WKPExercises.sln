@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chapter8_client", "chapter8
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProcessProtect", "chapter9\ProcessProtect\ProcessProtect.vcxproj", "{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProcessProtectClient", "chapter9\ProcessProtect\ProcessProtectClient\ProcessProtectClient.vcxproj", "{7DA74B9D-C8CA-41C8-8920-F7519312760B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -239,6 +241,18 @@ Global
 		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|x86.ActiveCfg = Release|Win32
 		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|x86.Build.0 = Release|Win32
 		{667D42C2-CB08-4065-ADCB-5B9AEE961AA2}.Release|x86.Deploy.0 = Release|Win32
+		{7DA74B9D-C8CA-41C8-8920-F7519312760B}.Debug|ARM.ActiveCfg = Debug|Win32
+		{7DA74B9D-C8CA-41C8-8920-F7519312760B}.Debug|ARM64.ActiveCfg = Debug|Win32
+		{7DA74B9D-C8CA-41C8-8920-F7519312760B}.Debug|x64.ActiveCfg = Debug|x64
+		{7DA74B9D-C8CA-41C8-8920-F7519312760B}.Debug|x64.Build.0 = Debug|x64
+		{7DA74B9D-C8CA-41C8-8920-F7519312760B}.Debug|x86.ActiveCfg = Debug|Win32
+		{7DA74B9D-C8CA-41C8-8920-F7519312760B}.Debug|x86.Build.0 = Debug|Win32
+		{7DA74B9D-C8CA-41C8-8920-F7519312760B}.Release|ARM.ActiveCfg = Release|Win32
+		{7DA74B9D-C8CA-41C8-8920-F7519312760B}.Release|ARM64.ActiveCfg = Release|Win32
+		{7DA74B9D-C8CA-41C8-8920-F7519312760B}.Release|x64.ActiveCfg = Release|x64
+		{7DA74B9D-C8CA-41C8-8920-F7519312760B}.Release|x64.Build.0 = Release|x64
+		{7DA74B9D-C8CA-41C8-8920-F7519312760B}.Release|x86.ActiveCfg = Release|Win32
+		{7DA74B9D-C8CA-41C8-8920-F7519312760B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

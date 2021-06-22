@@ -11,7 +11,22 @@
 #define PRINT(_x_, ...) DbgPrint(DEBUG_PREFIX _x_, ##__VA_ARGS__);
 
 // Maximum number of processes that can be protected by driver
-#define MAX_PROCESS_COUNT 256
+#define MAX_PROCESS_COUNT 10
+
+// Access mask macro required for handle to terminate process
+#define PROCESS_TERMINATE 1
+
+// Device type macro
+#define FILE_DEVICE_PROCESSPROTECT 0x8000
+
+// IOCTL macro for protecting a process by PID - 80002000
+#define IOCTL_PROCESS_PROTECT_BY_PID CTL_CODE(FILE_DEVICE_PROCESSPROTECT, 0x800, METHOD_BUFFERED, FILE_ANY_ACCESS)
+
+// IOCTL macro for unprotecting a process by PID - 80002004
+#define IOCTL_PROCESS_UNPROTECT_BY_PID CTL_CODE(FILE_DEVICE_PROCESSPROTECT, 0x801, METHOD_BUFFERED, FILE_ANY_ACCESS)
+
+// IOCTL macro for clearing all processes protected from UM termination from list - 8000200B
+#define IOCTL_PROCESS_PROTECT_CLEAR CTL_CODE(FILE_DEVICE_PROCESSPROTECT, 0x802, METHOD_NEITHER, FILE_ANY_ACCESS)
 
 // Globals
 // ------------------------------------------------------------------------
@@ -43,9 +58,211 @@ FAST_MUTEX fastMutex;
 OB_PREOP_CALLBACK_STATUS process_ob_pre_op_callback(PVOID registrationContext, POB_PRE_OPERATION_INFORMATION pObPreOperationInformation) {
 	// Suppress W4 warning - C4100
 	UNREFERENCED_PARAMETER(registrationContext);
-	UNREFERENCED_PARAMETER(pObPreOperationInformation);
+
+	// Init some important stuff
+	PEPROCESS pEprocess = NULL;
+	DWORD32 pid = 0;
+
+	// Check if kernel handle, if true then ignore
+	if (pObPreOperationInformation->KernelHandle)
+		return OB_PREOP_SUCCESS;
+
+	// Get pointer to target process object
+	pEprocess = (PEPROCESS)pObPreOperationInformation->Object;
+
+	// Get PID of target process
+	pid = HandleToULong(PsGetProcessId(pEprocess));
+
+	// Acquire ownership of fast mutex, raises current CPU IRQL to 1(APC_LEVEL)
+	ExAcquireFastMutex(&fastMutex);
+
+	// Use SEH since it is important to release fast mutex no matter what happens
+	__try {
+		// Loop over process protect list
+		for (int i = 0; i < MAX_PROCESS_COUNT; i++) {
+			// Check if target PID matches any of the processes protected
+			if (processProtectList[i] == pid) {
+				// Remove PROCESS_TERMINATE access mask bit from caller's request
+				pObPreOperationInformation->Parameters->CreateHandleInformation.DesiredAccess &= ~PROCESS_TERMINATE;
+				break;
+			}
+		}
+	}
+	__finally {
+		// Release ownership of fast mutex, lowers current CPU IRQL to 0(DISPATCH_LEVEL)
+		ExReleaseFastMutex(&fastMutex);
+	}
 
 	return OB_PREOP_SUCCESS;
+}
+
+// IRP_MJ_DEVICE_CONTROL dispatch routine
+// ------------------------------------------------------------------------
+
+NTSTATUS driver_device_control(PDEVICE_OBJECT pDeviceObject, PIRP pIrp) {
+	// Suppress W4 warning - C4100
+	UNREFERENCED_PARAMETER(pDeviceObject);
+
+	// Init some important stuff
+	PIO_STACK_LOCATION pIoStackLocation = NULL;
+	DWORD32 ioctl = 0;
+	DWORD32 inputBufferLength = 0;
+	PDWORD32 pBuffer = NULL;
+	NTSTATUS status = STATUS_SUCCESS;
+	DWORD32 bytesTransferred = sizeof(DWORD32);
+	DWORD32 pid = 0;
+
+	// Get caller's I/O stack location in IRP
+	pIoStackLocation = IoGetCurrentIrpStackLocation(pIrp);
+
+	// Get IOCTL
+	ioctl = pIoStackLocation->Parameters.DeviceIoControl.IoControlCode;
+
+	// Check if requested IOCTL operation is implemented
+	switch (ioctl) {
+	// Protect a process from UM termination by its PID
+	case IOCTL_PROCESS_PROTECT_BY_PID:
+		// Get length of input buffer
+		inputBufferLength = pIoStackLocation->Parameters.DeviceIoControl.InputBufferLength;
+		if (inputBufferLength % sizeof(ULONG) != 0) {
+			status = STATUS_INVALID_BUFFER_SIZE;
+			bytesTransferred = 0;
+			break;
+		}
+
+		// Get pointer to kernel-mode buffer for read operation using Buffered I/O
+		pBuffer = (PDWORD32)pIrp->AssociatedIrp.SystemBuffer;
+
+		// Get PID from system buffer
+		pid = pBuffer[0];
+		if (pid == 0) {
+			status = STATUS_INVALID_PARAMETER;
+			bytesTransferred = 0;
+			break;
+		}
+
+		// Acquire ownership of fast mutex, raises current CPU IRQL to 1(APC_LEVEL) 
+		ExAcquireFastMutex(&fastMutex);
+
+		// Use SEH since it is important to release fast mutex no matter what happens
+		__try {
+			// Check if process protect list is already filled
+			if (processProtectedCount == MAX_PROCESS_COUNT) {
+				status = STATUS_TOO_MANY_NAMES;
+				bytesTransferred = 0;
+				PRINT("Process protect list is already filled error: %X\n", status);
+				break;
+			}
+
+			// Loop over process protect list
+			for (int i = 0; i < MAX_PROCESS_COUNT; i++) {
+				// Check for empty slot in process protect list
+				if (processProtectList[i] == 0) {
+					// Insert PID into global process protect array
+					processProtectList[i] = pid;
+					PRINT("Added process to protection list: %d\n", pid);
+
+					// Increment total processes protected count 
+					processProtectedCount = processProtectedCount + 1;
+					break;
+				}
+			}
+		}
+		__finally {
+			// Release ownership of fast mutex, lowers current CPU IRQL to 0(DISPATCH_LEVEL)
+			ExReleaseFastMutex(&fastMutex);
+		}
+
+		break;
+	// Unprotect a process from UM termination by its PID
+	case IOCTL_PROCESS_UNPROTECT_BY_PID:
+		// Get length of input buffer
+		inputBufferLength = pIoStackLocation->Parameters.DeviceIoControl.InputBufferLength;
+		if (inputBufferLength % sizeof(ULONG) != 0) {
+			status = STATUS_INVALID_BUFFER_SIZE;
+			bytesTransferred = 0;
+			break;
+		}
+
+		// Get pointer to kernel-mode buffer for read operation using Buffered I/O
+		pBuffer = (PDWORD32)pIrp->AssociatedIrp.SystemBuffer;
+
+		// Get PID from system buffer
+		pid = pBuffer[0];
+		if (pid == 0) {
+			status = STATUS_INVALID_PARAMETER;
+			bytesTransferred = 0;
+			break;
+		}
+
+		// Acquire ownership of fast mutex, raises current CPU IRQL to 1(APC_LEVEL) 
+		ExAcquireFastMutex(&fastMutex);
+
+		// Use SEH since it is important to release fast mutex no matter what happens
+		__try {
+			// Check if process protect list is empty
+			if (processProtectedCount == 0) {
+				status = STATUS_NOT_FOUND;
+				bytesTransferred = 0;
+				PRINT("Process protect list is empty error: %X\n", status);
+				break;
+			}
+
+			// Loop over process protect list
+			for (int i = 0; i < MAX_PROCESS_COUNT; i++) {
+				// Check if process protect list contains target PID
+				if (processProtectList[i] == pid) {
+					// Remove PID from global process protect array
+					processProtectList[i] = 0;
+					PRINT("Removed process from protection list: %d\n", pid);
+
+					// Decrement total processes protected count 
+					processProtectedCount = processProtectedCount - 1;
+					break;
+				}
+			}
+		}
+		__finally {
+			// Release ownership of fast mutex, lowers current CPU IRQL to 0(DISPATCH_LEVEL)
+			ExReleaseFastMutex(&fastMutex);
+		}
+
+		break;
+	// Clear all processes protected from UM termination from global array
+	case IOCTL_PROCESS_PROTECT_CLEAR:
+		// Acquire ownership of fast mutex, raises current CPU IRQL to 1(APC_LEVEL) 
+		ExAcquireFastMutex(&fastMutex);
+
+		// Use SEH since it is important to release fast mutex no matter what happens
+		__try {
+			// Empty process protect global array
+			RtlSecureZeroMemory(processProtectList, sizeof(processProtectList));
+			PRINT("Cleared process protect list\n");
+
+			// Set processes protected count to 0
+			processProtectedCount = 0;
+		}
+		__finally {
+			// Release ownership of fast mutex, lowers current CPU IRQL to 0(DISPATCH_LEVEL)
+			ExReleaseFastMutex(&fastMutex);
+		}
+
+		bytesTransferred = 0;
+		break;
+	default:
+		status = STATUS_INVALID_DEVICE_REQUEST;
+		bytesTransferred = 0;
+		break;
+	}
+
+	// Set IRP status and information
+	pIrp->IoStatus.Status = status;
+	pIrp->IoStatus.Information = bytesTransferred;
+
+	// Complete IRP
+	IoCompleteRequest(pIrp, IO_NO_INCREMENT);
+
+	return status;
 }
 
 // IRP_MJ_CREATE/IRP_MJ_CLOSE dispatch routine
@@ -105,6 +322,9 @@ extern "C" NTSTATUS DriverEntry(_In_ PDRIVER_OBJECT pDriverObject, _In_ PUNICODE
 	// Set dispatch routine to be called to obtain handle/close handle to device object
 	pDriverObject->MajorFunction[IRP_MJ_CREATE] = driver_create_close;
 	pDriverObject->MajorFunction[IRP_MJ_CLOSE] = driver_create_close;
+
+	// Set dispatch routine to be called to handle IOCTL operations
+	pDriverObject->MajorFunction[IRP_MJ_DEVICE_CONTROL] = driver_device_control;
 
 	// Create device object
 	status = IoCreateDevice(pDriverObject, 0, &deviceName, FILE_DEVICE_UNKNOWN, FILE_DEVICE_SECURE_OPEN, FALSE, &pDeviceObject);
