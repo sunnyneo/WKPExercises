@@ -233,7 +233,7 @@ int wmain(int argc, const wchar_t* argv[]) {
 			if (bytesTransferred != 0)
 				print_event_info(readBuffer, bytesTransferred);
 
-			// Wait for bit before continuing next iteration - 200 ms
+			// Wait for bit before continuing next iteration - 200 milliseconds
 			Sleep(200);
 		}
 	}
